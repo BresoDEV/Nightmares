@@ -811,6 +811,9 @@
             else {
                 msgEstatica('<font style="color:yellow;font-family:Georgia">Luz ja foi restaurada</font>');
                 som('blip.wav');
+				faded();
+				quartoAtual = 27;
+				lado = 2;
             }
             msgEstaticaSemFundo('Painel de Energia');
         }
