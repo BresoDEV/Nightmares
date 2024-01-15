@@ -805,7 +805,7 @@
                 som('blip.wav');
                 msgEstatica('Energia restaurada');
                 localStorage.setItem('ligouEnergia', '1');
-                window.location.reload();//att pra mudar a foto
+                // window.location.reload();//att pra mudar a foto
             }
             else {
                 msgEstatica('<font style="color:yellow;font-family:Georgia">Luz ja foi restaurada</font>');
@@ -931,7 +931,7 @@
             }
             else if (numLigacao === '6') {
                 msgEstatica('....', 3000);
-                localStorage.setItem('numLigacao', '3');
+                localStorage.setItem('numLigacao', '6');
                 telefoneMudo();
 
             }
