@@ -34,7 +34,8 @@
     //if (localStorage.getItem('dificuldade')) {
     //    dificuldade = localStorage.getItem('dificuldade');
     //}
-
+	var radioLigado = false;
+	var radio;
 
 
     const cenario = document.getElementById('cenario');
@@ -700,6 +701,7 @@
         if (loop)
             a.loop = true;
         a.play();
+		return a;
     }
 
     somAmbiente('ambiente.mp3', true);
@@ -791,7 +793,17 @@
         }
         if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
             //msgEstatica('Radio');
-            som('radio.wav', true);
+			if(radioLigado)
+			{
+			radio.stop();
+			radioLigado = false;
+			}
+			else
+			{
+			radio = som('radio.wav', true);
+			radioLigado = true;
+			}
+            
         }
         if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
             if (jaBateuPonto === '0') {
