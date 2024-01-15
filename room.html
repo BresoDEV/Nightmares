@@ -622,6 +622,31 @@
            } , 10);
  
     }
+	
+	setInterval(()=>{
+	switch (lado) {
+                case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
+                            case 2:
+                                //poe a img de desligada,se nao ativou a luz
+                                if (localStorage.getItem('ligouEnergia') === '0') {
+                                    if (quartoAtual === 27 && lado === 2) {
+                                        cenario.src = 'rooms/27/2_2.jpg';
+                                    }
+                                    else
+                                    {
+                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                                    }
+                                }
+                                else
+                                    {
+                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                                    }
+                                break;
+                            case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
+                            case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
+                      
+            }
+			},1);
 
 
 
