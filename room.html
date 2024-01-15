@@ -59,7 +59,7 @@
         case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
     }
 
-    document.addEventListener('keydown', (x) => {
+    document.addEventListener('keypress', (x) => {
 	
 		 
         if (x.key === 'p') {
@@ -587,7 +587,8 @@
 
         } 
 		 
-
+		RecarregarParedes();
+		
     });
 
 
