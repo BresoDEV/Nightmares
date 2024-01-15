@@ -25,7 +25,7 @@
 	<a href="sair.html"><button>Sair</button></a><br><br>
 </body>
 <center>
-	<footer>Criado por BresoDEV<br>Versão: 1.06<br>15/01/2024</footer>
+	<footer>Criado por BresoDEV<br>Versão: 1.07<br>15/01/2024</footer>
 </center>
 <script>
 
@@ -39,12 +39,13 @@
 	}, 3500);
 
 	var continuar = document.getElementById('continuar');
-	if (localStorage.getItem('numLigacao') !== '0') {
+	if (localStorage.getItem('numLigacao') ) 
+	{
 		continuar.style.display = 'block';
 	}
 
 	
-}
+ 
 </script>
 
 </html>
