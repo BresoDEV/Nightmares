@@ -936,7 +936,10 @@
             msgEstaticaSemFundo('Armário de Chaves');
         }
         else if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
-            msgEstaticaSemFundo('Radio');
+			if(radioLigado)
+				msgEstaticaSemFundo('Radio - <font style="color:yellow;font-family:Georgia">Clique para desligar</font>');
+			else
+				msgEstaticaSemFundo('Radio - <font style="color:yellow;font-family:Georgia">Clique para ligar </font>');
         }
         else if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
             msgEstaticaSemFundo('Relógio-Ponto');
