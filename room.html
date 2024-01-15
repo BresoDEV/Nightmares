@@ -29,7 +29,8 @@
 
 <script>
 
-
+	var debugmenuBool = false;
+	var debugmenu =debugMenu();
 
     var dificuldade = 'facil';
     //if (localStorage.getItem('dificuldade')) {
@@ -60,7 +61,16 @@
 
     document.addEventListener('keydown', (x) => {
         if (x.key === 'p') {
-            debugMenu();
+			if(!debugmenuBool)
+				{ 
+				debugmenu.style.display = 'block';
+				debugmenuBool = true;
+				}
+				else
+				{
+				debugmenu.style.display = 'none';
+				debugmenuBool = false;
+				}
         } 
 		if (x.key === 'd') {
             if (lado == 4)
@@ -1013,6 +1023,7 @@
         fundo.style.right = '10px';
         fundo.style.fontFamily = 'Arial';
         fundo.style.padding = '5px';
+        fundo.style.display = 'none';
         document.body.appendChild(fundo);
 
 
@@ -1155,6 +1166,7 @@
             item3.innerHTML = 'Quarto: ' + quartoAtual;
             item4.innerHTML = 'Lado: ' + lado;
         }, 1);
+		return fundo;
     }
 
     function _GET(s)
