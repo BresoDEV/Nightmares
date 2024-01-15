@@ -1456,8 +1456,10 @@
 
     for (var i = 0; i < imagens.length; i++) 
 	{
+		cenario.style.opacity =  '0';
         var img = new Image();
         img.src = imagens[i];
+		instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
 		}
 	}
 
@@ -1466,7 +1468,7 @@
 
  document.addEventListener('DOMContentLoaded', function() {
         instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
-		cenario.style.opacity =  '0.1';
+		
         window.addEventListener('load', function() {
 		instrucao(' ');
             instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar:<br><font style="color:yellow">W</font>: Anda pra frente<br><font style="color:yellow">D</font>: Vira para a direita<br><font style="color:yellow">A</font>: Vira para a esquerda ');
