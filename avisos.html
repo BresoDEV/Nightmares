@@ -16,7 +16,7 @@
 	<br>
 	<br>
 	<center>
-	<h2>Meu nome é Eduardo, e meu novo emprego na Cootegal prometia ser diferente.<br>Transferido da empresa Guarda Lunaris, as sombras deste primeiro dia revelaram segredos aterradores.<br>Entre corredores desconhecidos, mergulhei no terror de uma noite que desafiaria até mesmo os mais corajosos... </h2>
+	<h2 id="texto">Meu nome é Eduardo, e meu novo emprego na Cootegal prometia ser diferente.<br>Transferido da empresa Guarda Lunaris, as sombras deste primeiro dia revelaram segredos aterradores.<br>Entre corredores desconhecidos, mergulhei no terror de uma noite que desafiaria até mesmo os mais corajosos... </h2>
 	</center>
 	<br>
 	<br>   
@@ -29,9 +29,18 @@ const titulo = document.getElementById('titulo');
 document.addEventListener('keydown',(x)=>{
     if(x.key === 'Enter')
     {
-        window.location.href = 'room.html';
+		if(isMobile)
+			window.location.href = 'index.html';
+			else
+			window.location.href = 'room.html';
     }
 });
+
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+if(isMobile)
+{
+	document.getElementById('texto').innerHTML = 'Esse jogo nao pode ser jogado em celulares.<br>Acesse ele em um computador para poder jogar';
+}
 
 
 //locis
