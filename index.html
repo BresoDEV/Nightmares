@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Document</title>
+</head>
+
+
+<body>
+	<img id="cenario" src="imgs/fundo.jpg" alt="" class="fundo2">
+	<br>
+	<br>
+	<center>
+		<h1 id="titulo">Nightmares</h1>
+	</center>
+	<br>
+	<br>
+	<a id='continuar' href="room.html?quarto=1&lado=1" style="display: none;"><button>Continuar</button></a><br><br>
+	<a href="avisos.html?INDEX=1"><button>Novo Jogo</button></a><br><br>
+	<a href="sair.html"><button>Sair</button></a><br><br>
+</body>
+<center>
+	<footer>Criado por BresoDEV</footer>
+</center>
+<script>
+
+	const titulo = document.getElementById('titulo');
+
+	setInterval(() => {
+		titulo.innerHTML = "Nightmares";
+	}, 4000);
+	setInterval(() => {
+		titulo.innerHTML = "Help-me";
+	}, 3500);
+
+	var continuar = document.getElementById('continuar');
+	if (localStorage.getItem('numLigacao') !== '0') {
+		continuar.style.display = 'block';
+	}
+
+	
+</script>
+
+</html>

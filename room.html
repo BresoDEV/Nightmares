@@ -1,0 +1,1142 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div id="lanterna">
+        <div id="reveal">
+            <img id="cenario" src="imgs/fundo.jpg" alt="" class="fundo">
+        </div>
+    </div>
+    <br>
+    <br>
+    <center>
+        <footer class="alerta" id="alerta"></footer>
+
+    </center>
+    <div class="alerta2" id="alerta2"></div>
+</body>
+
+<script>
+
+
+
+    var dificuldade = 'facil';
+    //if (localStorage.getItem('dificuldade')) {
+    //    dificuldade = localStorage.getItem('dificuldade');
+    //}
+
+
+
+    const cenario = document.getElementById('cenario');
+    var lado = 1;
+    var quartoAtual = 1;
+    var xMouse = 0;
+    var yMouse = 0;
+    var mensagem = document.getElementById('alerta');
+    var mensagem2 = document.getElementById('alerta2');
+
+
+
+
+    switch (lado) {
+        case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
+        case 2: cenario.src = 'rooms/' + quartoAtual + '/2.jpg'; break;
+        case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
+        case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
+    }
+
+    document.addEventListener('keydown', (x) => {
+        if (x.key === 'd') {
+            if (lado == 4)
+                lado = 1;
+            else
+                lado++;
+        }
+        if (x.key === 'a') {
+            if (lado == 1)
+                lado = 4;
+            else
+                lado--;
+        }
+
+        if (x.key === 'w') {
+
+            switch (quartoAtual) {
+                case 1:
+                    {
+                        switch (lado) {
+                            case 4: 
+                            
+                            //quartoAtual = 2; lado = 1';
+                            quartoAtual = 2; lado = 1; 
+                            faded();
+                            break;//sai da portaria
+                        }
+                    }
+                    break;
+
+                case 2:
+                    {
+                        switch (lado) {
+                            case 1: quartoAtual = 3; lado = 1; faded(); break;//segue pra baixo
+                            case 4: quartoAtual = 1; lado = 1; faded(); break;//entra na portaria
+                        }
+                    }
+                    break;
+
+                case 3:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 2; lado = 4; faded(); break;//volta
+                            case 2: quartoAtual = 4; lado = 2; faded(); break;//direcao ao banheiro
+                            case 1: quartoAtual = 9; lado = 1; faded(); break;//desce
+
+                        }
+                    }
+                    break;
+
+                //=------------------------------------------------
+                case 4:
+                    {
+                        switch (lado) {
+                            case 1: quartoAtual = 5; lado = 1; faded(); break;//entra banheiro
+                            case 4: quartoAtual = 3; lado = 1; faded(); break;//desce
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 5:
+                    {
+                        switch (lado) {
+                            case 1: quartoAtual = 6; lado = 2; faded(); break;//entra banheiro
+                            case 2: quartoAtual = 4; lado = 3; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 6:
+                    {
+                        switch (lado) {
+                            case 1: quartoAtual = 7; lado = 1; faded(); break;//entra banheiro
+                            case 4: quartoAtual = 5; lado = 3; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 7:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 6; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 8; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 8:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 7; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 8; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 9:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 3; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 10; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 10:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 9; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 11; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 11:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 10; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 12; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 12:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 11; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 15; lado = 1; faded(); break;//sai banheiro
+                            case 2: quartoAtual = 13; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 13:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 12; lado = 1; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 14; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 14:
+                    {
+                        switch (lado) {
+                            case 4: quartoAtual = 13; lado = 3; faded(); break;//entra banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 15:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 12; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 16; lado = 1; faded(); break;//sai banheiro
+                            case 2: msgEstatica('Melhor não ir nesse local, está muito escuro...'); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 16:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 15; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 17; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 17:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 16; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 18; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 18:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 17; lado = 3; faded(); break;//entra banheiro
+                            case 4: quartoAtual = 19; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 44; lado = 3; faded(); break;//sai banheiro
+                            case 2: msgEstatica('Melhor não ir por aqui, não sei onde vai dar!', 3000); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 19:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 18; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 20; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+
+                //=------------------------------------------------
+                case 20:
+                    {
+                        switch (lado) {
+                            case 2: quartoAtual = 19; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 21; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 21:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 20; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 22; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 22:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 21; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 23; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 23:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 22; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 24; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 24:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 23; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 25; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 25:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 24; lado = 3; faded(); break;//entra banheiro
+                            case 1: quartoAtual = 28; lado = 1; faded(); break;//sai banheiro
+                            case 4: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 26:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 25; lado = 1; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 27; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 27:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 26; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            //case 1: quartoAtual = 27; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 28:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 25; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 29; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 29:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 28; lado = 3; faded(); break;//entra banheiro
+                            case 2: quartoAtual = 41; lado = 3; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 30; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 30:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 29; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 31; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 31:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 30; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 32; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 32:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 31; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 33; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 33:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 32; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 34; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 34:
+                    {
+                        //marca que fez a ronda
+                        localStorage.setItem('fezRonda', '1');
+                        switch (lado) {
+                            case 3: quartoAtual = 33; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 35; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 35:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 34; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 36; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 36:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 35; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 37; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 37:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 36; lado = 3; faded(); break;//entra banheiro
+                            //case 1: quartoAtual = 26; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 38; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 38:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 37; lado = 3; faded(); break;//entra banheiro
+                            case 4: quartoAtual = 39; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 40; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 39:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 38; lado = 1; faded(); break;//entra banheiro
+                            //case 4: quartoAtual = 39; lado = 1; faded(); break;//sai banheiro
+                            case 1: msgEstatica('Melhor não ir por aqui, não tem luz nenhuma!', 3000); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 40:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 38; lado = 3; faded(); break;//entra banheiro
+                            case 2: quartoAtual = 41; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 42; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 41:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 40; lado = 4; faded(); break;//entra banheiro
+                            //case 2: quartoAtual = 41; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 29; lado = 4; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 42:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 40; lado = 3; faded(); break;//entra banheiro
+                            // case 2: quartoAtual = 41; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 43; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 43:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 42; lado = 3; faded(); break;//entra banheiro
+                            // case 2: quartoAtual = 41; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 44; lado = 1; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                case 44:
+                    {
+                        switch (lado) {
+                            case 3: quartoAtual = 43; lado = 3; faded(); break;//entra banheiro
+                            // case 2: quartoAtual = 41; lado = 1; faded(); break;//sai banheiro
+                            case 1: quartoAtual = 18; lado = 3; faded(); break;//sai banheiro
+
+                        }
+                    }
+                    break;
+                //=------------------------------------------------
+                //=------------------------------------------------
+                //=------------------------------------------------
+                //=------------------------------------------------
+                //=------------------------------------------------
+                //=------------------------------------------------
+                //=------------------------------------------------
+                //=------------------------------------------------
+            }
+
+
+        }
+        faded();
+        //------------------------------
+        // switch (lado) {
+        //     case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
+        //     case 2: cenario.src = 'rooms/' + quartoAtual + '/2.jpg'; break;
+        //     case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
+        //     case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
+        // }
+
+    });
+
+
+
+    //transicaao suave entre paredes
+    function faded() {
+        let i = 200;
+        let lp1 = setInterval(() => {
+            if (i === 0) 
+            {
+
+                clearInterval(lp1);
+
+                let lp2 = setInterval(() => {
+                    if (i === 200) {
+                        clearInterval(lp2);
+                    }
+                    else {
+                        i++;
+                        cenario.style.opacity = i * 0.1;
+                        switch (lado) {
+                            case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
+                            case 2:
+                                //poe a img de desligada,se nao ativou a luz
+                                if (localStorage.getItem('ligouEnergia') === '0') {
+                                    if (quartoAtual === 27 && lado === 2) {
+                                        cenario.src = 'rooms/27/2_2.jpg';
+                                    }
+                                    else
+                                    {
+                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                                    }
+                                }
+                                else
+                                    {
+                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                                    }
+                                break;
+                            case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
+                            case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
+                        }
+
+                        
+                    }
+                }, 1);
+
+
+            }
+            else {
+                i--;
+                cenario.style.opacity = i * 0.1;
+            }
+        }, 1);
+    }
+
+
+
+    //renderiza ao mudar de quarto
+    var i = 0;
+    var lp2 = setInterval(() => {
+        if (i === 100) {
+            clearInterval(lp2);
+        }
+        else {
+            i++;
+            cenario.style.opacity = i * 0.1;
+            switch (lado) {
+                case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
+                            case 2:
+                                //poe a img de desligada,se nao ativou a luz
+                                if (localStorage.getItem('ligouEnergia') === '0') {
+                                    if (quartoAtual === 27 && lado === 2) {
+                                        cenario.src = 'rooms/27/2_2.jpg';
+                                    }
+                                    else
+                                    {
+                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                                    }
+                                }
+                                else
+                                    {
+                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                                    }
+                                break;
+                            case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
+                            case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
+                      
+            }
+            //poe a img de desligada,se nao ativou a luz
+            if (localStorage.getItem('ligouEnergia') === '0') {
+                if (quartoAtual === 27 && lado === 2) {
+                    cenario.src = 'rooms/27/2_2.jpg';
+                }
+            }
+        }
+    }, 10);
+
+
+    if (dificuldade !== 'facil') {
+        document.getElementById('lanterna').addEventListener('mousemove', (x) => {
+            var reveal = document.getElementById('reveal');
+            reveal.style.left = x.pageX - reveal.offsetWidth / 2 + 'px';
+            reveal.style.top = x.pageY - reveal.offsetHeight / 2 + 'px';
+            reveal.style.display = 'block';
+        });
+
+        document.getElementById('lanterna').addEventListener('mouseleave', () => {
+            var reveal = document.getElementById('reveal');
+            reveal.style.display = 'none';
+        });
+    }
+    else {
+        document.getElementById('lanterna').id = 'aaaaaaaaalanterna';
+        document.getElementById('reveal').id = 'aaaaaaaaareveal';
+    }
+
+
+
+    document.addEventListener('mousemove', (e) => {
+        let x = e.pageX;
+        let y = e.pageY;
+        let ww = window.innerWidth;
+        let wh = window.innerHeight;
+        xMouse = parseInt((x / ww) * 100);
+        yMouse = parseInt((y / wh) * 100);
+    });
+
+
+
+    function msg(msg) {
+        mensagem.innerHTML = msg;
+    }
+    function som(audio, loop = false) {
+        var a = new Audio('audio/' + audio);
+        a.volume = 1;
+        if (loop)
+            a.loop = true;
+        a.play();
+    }
+
+    somAmbiente('ambiente.mp3', true);
+    function somAmbiente(audio, loop = false) {
+        var ab = new Audio('audio/' + audio);
+        ab.volume = 0.2;
+        if (loop)
+            ab.loop = true;
+        ab.play();
+    }
+
+    function msgEstatica(msg, tempo = 3000) {
+        mensagem.innerHTML = msg;
+        mensagem.style.backgroundColor = 'black';
+        mensagem.style.border = '1px solid aliceblue';
+        setTimeout(() => {
+            mensagem.innerHTML = '';
+            mensagem.style.backgroundColor = 'transparent';
+            mensagem.style.border = 'none';
+        }, tempo);
+    }
+    function msgEstaticaSemFundo(msg) {
+        if (msg === '') {
+            mensagem2.style.display = 'none';
+        }
+        else {
+            mensagem2.innerHTML = msg;
+            mensagem2.style.display = 'block';
+        }
+
+    }
+
+    function telefoneMudo() {
+        setTimeout(() => {
+            som('telefone.wav');
+            setTimeout(() => {
+                som('telefone.wav');
+                setTimeout(() => {
+                    som('telefone.wav');
+                }, 1000);
+            }, 1000);
+        }, 1000);
+    }
+
+
+    function verificarObjeto(N_quarto, parede, x1, y1, x2, y2) {
+
+        if (quartoAtual === N_quarto && lado === parede && xMouse >= x1 && yMouse >= y1 && xMouse <= x2 && yMouse <= y2) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+    var numLigacao = localStorage.getItem('numLigacao');
+    var jaBateuPonto = localStorage.getItem('jaBateuPonto');
+    var fezRonda = localStorage.getItem('fezRonda');
+    var encontrouAlgoSuspeito = localStorage.getItem('encontrouAlgoSuspeito');
+    var ligouEnergia = localStorage.getItem('ligouEnergia');
+
+
+
+
+    cenario.addEventListener('click', () => {
+
+
+        if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
+            if (ligouEnergia === '0') {
+                som('blip.wav');
+                msgEstatica('Energia restaurada');
+                localStorage.setItem('ligouEnergia', '1');
+                window.location.reload();//att pra mudar a foto
+            }
+            else {
+                msgEstatica('<font style="color:yellow;font-family:Georgia">Luz ja foi restaurada</font>');
+                som('blip.wav');
+            }
+            msgEstaticaSemFundo('Painel de Energia');
+        }
+
+        if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
+            som('papel.wav');
+            //msgEstatica('Caderno de anotacoes');
+        }
+        if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
+            //msgEstatica('Radio');
+            som('radio.wav', true);
+        }
+        if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
+            if (jaBateuPonto === '0') {
+                msgEstatica('Ponto registrado');
+                som('blip.wav');
+                localStorage.setItem('jaBateuPonto', '1');
+            }
+            else {
+                msgEstatica('<font style="color:red;font-family:Georgia">Ponto ja foi registrado</font>');
+                som('blip.wav');
+            }
+        }
+        if (verificarObjeto(14, 1, 29, 3, 67, 93) ||
+            verificarObjeto(21, 4, 33, 2, 65, 93)||
+            verificarObjeto(44, 2, 60, 16, 84, 71)||
+            verificarObjeto(42, 4, 42, 1, 66, 71)||
+            verificarObjeto(37, 4, 51, 11, 81, 71)||
+            verificarObjeto(28, 4, 21, 3, 71, 99)||
+            verificarObjeto(2, 3, 44, 7, 71, 70)||
+            verificarObjeto(44, 4, 65, 12, 81, 68)) {
+            msgEstatica('Porta trancada');
+            som('trancado.mp3');
+        }
+        if (verificarObjeto(5, 4, 12, 22, 87, 87)) {
+            msgEstatica('Trancada');
+            som('trancado.mp3');
+        }
+        if (verificarObjeto(8, 1, 1, 30, 30, 98)) {
+            som('xixi.mp3');
+        }
+        if (verificarObjeto(1, 2, 20, 77, 33, 86) || verificarObjeto(1, 1, 92, 75, 100, 86)) {
+
+            som('telefone.wav');
+            if (numLigacao === '0') {
+                msgEstatica('-Hey novato, aqui é o Eduardo, seu colega. Bem vindo ao seu primeiro dia.<br>-Depois dê uma olhada na empresa, e nao esqueça de registrar o horario-ponto', 10000);
+                localStorage.setItem('numLigacao', '1');
+            }
+            else if (numLigacao === '1') {
+                if (jaBateuPonto === '0') {
+                    msgEstatica('-Hey novato, não vi seu registro da noite ainda! Não esqueça de fazer.', 5000);
+                }
+                else {
+                    msgEstatica('-Seu registro chegou aqui no sistema. Até logo.<br>-Se precisar de algo, me ligue..', 7000);
+                    localStorage.setItem('numLigacao', '2');
+                }
+
+            }
+            else if (numLigacao === '2') {
+                if (fezRonda === '0') {
+                    msgEstatica('-Hey novato, vá conheçer a empresa garoto, depois me ligue caso encontrar algo suspeito.', 5000);
+                }
+                else {
+                    if (encontrouAlgoSuspeito !== '0') {
+                        msgEstatica('-Oque voce viu? Não dê bola para isso, pelo menos por enquanto.<br>-Apenas...fique de olho..<br>-Se cuide ai!', 10000);
+                        localStorage.setItem('numLigacao', '3');
+                    }
+                    else {
+                        msgEstatica('-Gostou da empresa garoto? Tranquila né!.<br>-Enfim, se precisar de algo, me ligue..<br>-Se cuide ai!', 10000);
+                        localStorage.setItem('numLigacao', '3');
+                    }
+
+                }
+            }
+            else if (numLigacao === '3') {
+                if (encontrouAlgoSuspeito !== '0') {
+                    msgEstatica('-Oque voce viu? Não dê bola para isso, pelo menos por enquanto.<br>-Apenas...fique de olho..<br>-Se cuide ai!', 10000);
+                    localStorage.setItem('numLigacao', '4');
+                }
+                else {
+
+                    msgEstatica('....', 3000);
+                    localStorage.setItem('numLigacao', '3');
+                    telefoneMudo();
+                }
+            }
+            else if (numLigacao === '4') {
+                if (ligouEnergia === '0') {
+                    msgEstatica('-Estou vendo que estão sem energia aqui.<br>-Desça lá e ligue no painel<br>-Me avise quando ligar', 10000);
+                    localStorage.setItem('numLigacao', '5');
+                }
+                else {
+                    msgEstatica('-Otimo,vi que ja ligou a luz<br>-Otimo trabalho!<br>-Se cuide ai!', 10000);
+                    localStorage.setItem('numLigacao', '5');
+                }
+
+            }
+            else if (numLigacao === '5') {
+                if (ligouEnergia === '0') {
+                    msgEstatica('-Estão sem energia aqui ainda novato!!.<br>-Desça lá e ligue no painel RÁPIDOOO!', 10000);
+                    localStorage.setItem('numLigacao', '5');
+                }
+                else {
+                    msgEstatica('-Finalmente!! Luz funcionando', 10000);
+                    localStorage.setItem('numLigacao', '6');
+                }
+
+            }
+            else if (numLigacao === '6') {
+                msgEstatica('....', 3000);
+                localStorage.setItem('numLigacao', '3');
+                telefoneMudo();
+
+            }
+
+
+
+
+        }
+    });
+
+    setInterval(() => {
+        jaBateuPonto = localStorage.getItem('jaBateuPonto');
+        numLigacao = localStorage.getItem('numLigacao');
+        fezRonda = localStorage.getItem('fezRonda');
+        encontrouAlgoSuspeito = localStorage.getItem('encontrouAlgoSuspeito');
+        ligouEnergia = localStorage.getItem('ligouEnergia');
+    }, 1000);
+
+
+    //msg no canto da tela
+    cenario.addEventListener('mousemove', () => {
+        if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
+            msgEstaticaSemFundo('Caderno de anotacoes');
+        }
+        else if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
+            msgEstaticaSemFundo('Painel de Energia');
+        }
+        else if (verificarObjeto(5, 4, 12, 22, 87, 87)) {
+            msgEstaticaSemFundo('Armário de Chaves');
+        }
+        else if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
+            msgEstaticaSemFundo('Radio');
+        }
+        else if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
+            msgEstaticaSemFundo('Relógio-Ponto');
+        }
+        else if (verificarObjeto(14, 1, 29, 3, 67, 93)) {
+            msgEstaticaSemFundo('Ambulatório');
+        }
+        else if (verificarObjeto(8, 1, 1, 30, 30, 98)) {
+            msgEstaticaSemFundo('Vaso Sanitário - <font style="color:yellow;font-family:Georgia">Clique para urinar</font>');
+        }
+        else if (verificarObjeto(8, 1, 55, 19, 88, 59)) {
+            msgEstaticaSemFundo('Pia');
+        }
+        else if (verificarObjeto(30, 2, 63, 3, 71, 12)) {
+            msgEstaticaSemFundo('Câmera de Segurança');
+        }
+        else if (verificarObjeto(28, 4, 21, 3, 71, 99)) {
+            msgEstaticaSemFundo('Portao de Ferro');
+        }
+        else if (verificarObjeto(14, 1, 29, 3, 67, 93) ||
+            verificarObjeto(21, 4, 33, 2, 65, 93)||
+            verificarObjeto(44, 2, 60, 16, 84, 71)||
+            verificarObjeto(42, 4, 42, 1, 66, 71)||
+            verificarObjeto(37, 4, 51, 11, 81, 71)||
+            verificarObjeto(2, 3, 44, 7, 71, 70)||
+            verificarObjeto(44, 4, 65, 12, 81, 68)) {
+            msgEstaticaSemFundo('Porta - <font style="color:yellow;font-family:Georgia">Clique para interagir</font>');
+        }
+        else if (verificarObjeto(1, 2, 20, 77, 33, 86) || verificarObjeto(1, 1, 92, 75, 100, 86)) {
+            msgEstaticaSemFundo('Telefone');
+        }
+        else {
+            msgEstaticaSemFundo('');
+        }
+    });
+
+
+
+
+
+
+
+
+
+    debugMenu();
+    function debugMenu() {
+        let fundo = document.createElement('div');
+        fundo.style.backgroundColor = 'black';
+        fundo.style.color = 'aliceblue';
+        fundo.style.width = '200px';
+        //fundo.style.height = '200px';
+        fundo.style.position = 'fixed';
+        fundo.style.top = '10px';
+        fundo.style.right = '10px';
+        fundo.style.fontFamily = 'Arial';
+        fundo.style.padding = '5px';
+        document.body.appendChild(fundo);
+
+
+        let item1 = document.createElement('p');
+        item1.style.color = 'aliceblue';
+        item1.innerHTML = 'aliceblue';
+        item1.style.fontFamily = 'Arial';
+        fundo.appendChild(item1);
+
+        let item2 = document.createElement('p');
+        item2.style.color = 'aliceblue';
+        item2.innerHTML = 'aliceblue';
+        item2.style.fontFamily = 'Arial';
+        fundo.appendChild(item2);
+
+        let item3 = document.createElement('p');
+        item3.style.color = 'aliceblue';
+        item3.innerHTML = 'aliceblue';
+        item3.style.fontFamily = 'Arial';
+        fundo.appendChild(item3);
+
+        let item4 = document.createElement('p');
+        item4.style.color = 'aliceblue';
+        item4.innerHTML = 'aliceblue';
+        item4.style.fontFamily = 'Arial';
+        fundo.appendChild(item4);
+
+        let portaria = document.createElement('p');
+        portaria.style.color = 'black';
+        portaria.style.backgroundColor = 'rgb(100 200 100)';
+        portaria.innerHTML = 'Ir para Portaria';
+        portaria.style.fontFamily = 'Arial';
+        portaria.style.fontSize = '20px';
+        portaria.style.width = '195px';
+        portaria.style.position = 'block';
+        portaria.style.marginTop = '5px';
+        fundo.appendChild(portaria);
+
+        let slaEnergia = document.createElement('p');
+        slaEnergia.style.color = 'black';
+        slaEnergia.style.backgroundColor = 'rgb(100 200 100)';
+        slaEnergia.innerHTML = 'Ir para Chave';
+        slaEnergia.style.fontFamily = 'Arial';
+        slaEnergia.style.fontSize = '20px';
+        slaEnergia.style.width = '195px';
+        slaEnergia.style.position = 'block';
+        slaEnergia.style.marginTop = '5px';
+        fundo.appendChild(slaEnergia);
+
+        let zerar = document.createElement('p');
+        zerar.style.color = 'black';
+        zerar.style.backgroundColor = 'rgb(200 100 100)';
+        zerar.innerHTML = 'Reiniciar Storage';
+        zerar.style.fontFamily = 'Arial';
+        zerar.style.fontSize = '20px';
+        zerar.style.width = '195px';
+        zerar.style.position = 'block';
+        zerar.style.marginTop = '5px';
+        fundo.appendChild(zerar);
+
+        let item5 = document.createElement('p');
+        item5.style.color = 'black';
+        item5.style.backgroundColor = 'aliceblue';
+        item5.innerHTML = 'Fazer Ronda';
+        item5.style.fontFamily = 'Arial';
+        item5.style.fontSize = '20px';
+        item5.style.width = '195px';
+        item5.style.position = 'block';
+        item5.style.marginTop = '5px';
+        fundo.appendChild(item5);
+
+
+        let item6 = document.createElement('p');
+        item6.style.color = 'black';
+        item6.style.backgroundColor = 'aliceblue';
+        item6.innerHTML = 'Fazer Registro';
+        item6.style.fontFamily = 'Arial';
+        item6.style.fontSize = '20px';
+        item6.style.width = '195px';
+        item6.style.position = 'block';
+        item6.style.marginTop = '5px';
+        fundo.appendChild(item6);
+
+        let suspeito = document.createElement('p');
+        suspeito.style.color = 'black';
+        suspeito.style.backgroundColor = 'aliceblue';
+        suspeito.innerHTML = 'Suspeito';
+        suspeito.style.fontFamily = 'Arial';
+        suspeito.style.fontSize = '20px';
+        suspeito.style.width = '195px';
+        suspeito.style.position = 'block';
+        suspeito.style.marginTop = '5px';
+        fundo.appendChild(suspeito);
+
+        let ligarluz = document.createElement('p');
+        ligarluz.style.color = 'black';
+        ligarluz.style.backgroundColor = 'aliceblue';
+        ligarluz.innerHTML = 'Ligar luz';
+        ligarluz.style.fontFamily = 'Arial';
+        ligarluz.style.fontSize = '20px';
+        ligarluz.style.width = '195px';
+        ligarluz.style.position = 'block';
+        ligarluz.style.marginTop = '5px';
+        fundo.appendChild(ligarluz);
+
+        slaEnergia.addEventListener('click', () => {
+            faded();
+            quartoAtual = 27;
+            lado = 2;
+        });
+        portaria.addEventListener('click', () => {
+           // window.location.href = 'room.html?quarto=1&lado=1';
+           faded();
+           quartoAtual = 1; lado = 1;
+
+        });
+        ligarluz.addEventListener('click', () => {
+            localStorage.setItem('ligouEnergia', '1');
+        });
+        suspeito.addEventListener('click', () => {
+            localStorage.setItem('encontrouAlgoSuspeito', '1');
+        });
+        zerar.addEventListener('click', () => {
+            localStorage.setItem('numLigacao', '0');
+            localStorage.setItem('jaBateuPonto', '0');
+            localStorage.setItem('fezRonda', '0');
+            localStorage.setItem('encontrouAlgoSuspeito', '0');
+            localStorage.setItem('ligouEnergia', '0');
+        });
+        item5.addEventListener('click', () => {
+            localStorage.setItem('fezRonda', '1');
+        });
+        item6.addEventListener('click', () => {
+            localStorage.setItem('jaBateuPonto', '1');
+        });
+
+        setInterval(() => {
+            item1.innerHTML = 'Mouse X: ' + xMouse + '%';
+            item2.innerHTML = 'Mouse Y: ' + yMouse + '%';
+            item3.innerHTML = 'Quarto: ' + quartoAtual;
+            item4.innerHTML = 'Lado: ' + lado;
+        }, 1);
+    }
+
+    function _GET(s)
+    {
+        var url = window.location.href;
+        var qp = new URLSearchParams(url.split('?')[1]);
+        
+        if(qp.has(s))
+        {
+            return qp.get(s);
+        }
+
+
+    }
+
+</script>
+
+</html>

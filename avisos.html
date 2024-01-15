@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Document</title>
+</head>
+ 
+
+<body>
+	<img id="cenario" src="a.png" alt="" class="fundo">
+	<br>
+	<br>
+	<center>
+	<h2>Texto um sendo exibido..</h2>
+	</center>
+	<br>
+	<br>   
+</body>
+<center><footer>Aperte ENTER para continuar</footer></center>
+<script>
+
+const titulo = document.getElementById('titulo');
+
+document.addEventListener('keydown',(x)=>{
+    if(x.key === 'Enter')
+    {
+        window.location.href = 'room.html?quarto=1&lado=1';
+    }
+});
+
+
+//locis
+localStorage.setItem('numLigacao','0');
+localStorage.setItem('jaBateuPonto','0');
+localStorage.setItem('fezRonda','0');
+localStorage.setItem('encontrouAlgoSuspeito','0');
+localStorage.setItem('ligouEnergia','0');
+
+</script>
+</html>
