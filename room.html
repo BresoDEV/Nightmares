@@ -839,6 +839,19 @@
 
     cenario.addEventListener('click', () => {
 
+		if(verificarObjeto(24, 4, 11, 26, 27, 36))
+		{
+			if(encontrouAlgoSuspeito === '0')
+			{
+			som('terror.mp3');
+			localStorage.setItem('encontrouAlgoSuspeito','1');
+			msgEstatica('Santo Deus!! Preciso reportar isso imediatamente!!');
+			}
+			else
+			{
+			msgEstatica('As marcas continuam aqui...');
+			}
+		}
 
         if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
             if (ligouEnergia === '0') {
@@ -997,8 +1010,19 @@
 
     //msg no canto da tela
     cenario.addEventListener('mousemove', () => {
+	
+		
+	
+	
+	
         if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
             msgEstaticaSemFundo('Caderno de anotacoes');
+        }
+		else if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
+			if(encontrouAlgoSuspeito === '0')
+				msgEstaticaSemFundo('SANGUE????');
+			else
+				msgEstaticaSemFundo('Marcas de sangue misteriosas');
         }
         else if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
             msgEstaticaSemFundo('Painel de Energia');
@@ -1105,6 +1129,18 @@
         portaria.style.position = 'block';
         portaria.style.marginTop = '5px';
         fundo.appendChild(portaria);
+		
+		
+        let objMisterioso = document.createElement('p');
+        objMisterioso.style.color = 'black';
+        objMisterioso.style.backgroundColor = 'rgb(100 200 100)';
+        objMisterioso.innerHTML = 'Obj Misterioso';
+        objMisterioso.style.fontFamily = 'Arial';
+        objMisterioso.style.fontSize = '20px';
+        objMisterioso.style.width = '195px';
+        objMisterioso.style.position = 'block';
+        objMisterioso.style.marginTop = '5px';
+        fundo.appendChild(objMisterioso);
 
         let slaEnergia = document.createElement('p');
         slaEnergia.style.color = 'black';
@@ -1173,6 +1209,12 @@
         ligarluz.style.marginTop = '5px';
         fundo.appendChild(ligarluz);
 
+        objMisterioso.addEventListener('click', () => {
+             
+            quartoAtual = 24;
+            lado = 4;
+			RecarregarParedes();
+        });
         slaEnergia.addEventListener('click', () => {
              
             quartoAtual = 27;
