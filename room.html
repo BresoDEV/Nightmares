@@ -77,12 +77,16 @@
                 lado = 1;
             else
                 lado++;
+				
+			setTimeout(()=>{},500);	
         }
         if (x.key === 'a') {
             if (lado == 1)
                 lado = 4;
             else
                 lado--;
+				
+			setTimeout(()=>{},500);		
         }
 
         if (x.key === 'w') {
@@ -584,14 +588,7 @@
 
                 clearInterval(lp1);
 
-                let lp2 = setInterval(() => {
-                    if (i === 100) {
-                        clearInterval(lp2);
-                    }
-                    else {
-                        i++;
-                        cenario.style.opacity = i * 0.1;
-                        switch (lado) {
+				switch (lado) {
                             case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
                             case 2:
                                 //poe a img de desligada,se nao ativou a luz
@@ -602,7 +599,7 @@
                                     else
                                     {
                                         cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                                    }
+                                 s   }
                                 }
                                 else
                                     {
@@ -613,6 +610,15 @@
                             case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
                         }
 
+						
+                let lp2 = setInterval(() => {
+                    if (i === 100) {
+                        clearInterval(lp2);
+                    }
+                    else {
+                        i++;
+                        cenario.style.opacity = i * 0.1;
+                        
                         
                     }
                 }, 10);
