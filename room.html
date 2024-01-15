@@ -584,7 +584,7 @@
 
     //transicaao suave entre paredes
     function faded() {
-        let i = 200;
+        let i = 100;
         let lp1 = setInterval(() => {
             if (i === 0) 
             {
@@ -592,7 +592,7 @@
                 clearInterval(lp1);
 
                 let lp2 = setInterval(() => {
-                    if (i === 200) {
+                    if (i === 100) {
                         clearInterval(lp2);
                     }
                     else {
@@ -622,7 +622,7 @@
 
                         
                     }
-                }, 1);
+                }, 10);
 
 
             }
@@ -630,7 +630,7 @@
                 i--;
                 cenario.style.opacity = i * 0.1;
             }
-        }, 1);
+        }, 10);
     }
 
 
