@@ -73,7 +73,7 @@
 				debugmenu.style.display = 'none';
 				debugmenuBool = false;
 				}
-				faded();
+				 
         } 
 		if (x.key === 'd') {
             fadeIN(()=>{
@@ -646,13 +646,33 @@
     }, 10);
 }
 
-    //transicaao suave entre paredes
-    function faded() {
-        let i = 0;
-        
-    }
-
-
+    function RecarregarParedes()
+	{
+	switch (lado) {
+            case 1:
+                cenario.src = 'rooms/' + quartoAtual + '/1.jpg';
+                break;
+            case 2:
+                //poe a img de desligada,se nao ativou a luz
+                if (localStorage.getItem('ligouEnergia') === '0') {
+                    if (quartoAtual === 27 && lado === 2) {
+                        cenario.src = 'rooms/27/2_2.jpg';
+                    } else {
+                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                        s
+                    }
+                } else {
+                    cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                }
+                break;
+            case 3:
+                cenario.src = 'rooms/' + quartoAtual + '/3.jpg';
+                break;
+            case 4:
+                cenario.src = 'rooms/' + quartoAtual + '/4.jpg';
+                break;
+        }
+	}
 	 
 
     //renderiza ao mudar de quarto
@@ -830,11 +850,12 @@
             else {
                 msgEstatica('<font style="color:yellow;font-family:Georgia">Luz ja foi restaurada</font>');
                 som('blip.wav');
-				faded();
+				 
 				quartoAtual = 27;
 				lado = 2;
             }
             msgEstaticaSemFundo('Painel de Energia');
+			RecarregarParedes();
         }
 
         if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
@@ -1153,18 +1174,20 @@
         fundo.appendChild(ligarluz);
 
         slaEnergia.addEventListener('click', () => {
-            faded();
+             
             quartoAtual = 27;
             lado = 2;
+			RecarregarParedes();
         });
         portaria.addEventListener('click', () => {
            // window.location.href = 'room.html?quarto=1&lado=1';
-           faded();
+            
            quartoAtual = 1; lado = 1;
-
+			RecarregarParedes();
         });
         ligarluz.addEventListener('click', () => {
             localStorage.setItem('ligouEnergia', '1');
+			RecarregarParedes();
         });
         suspeito.addEventListener('click', () => {
             localStorage.setItem('encontrouAlgoSuspeito', '1');
