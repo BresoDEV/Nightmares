@@ -21,7 +21,7 @@
 	<br>
 	<br>   
 </body>
-<center><footer>Aperte ENTER para continuar</footer></center>
+<center><footer id="foot">Aperte ENTER para continuar</footer></center>
 <script>
 
 const titulo = document.getElementById('titulo');
@@ -31,7 +31,7 @@ document.addEventListener('keydown',(x)=>{
     {
 		if(isMobile)
 			window.location.href = 'index.html';
-			else
+		else
 			window.location.href = 'room.html';
     }
 });
@@ -39,7 +39,8 @@ document.addEventListener('keydown',(x)=>{
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if(isMobile)
 {
-	document.getElementById('texto').innerHTML = 'Esse jogo nao pode ser jogado em celulares.<br>Acesse ele em um computador para poder jogar';
+	document.getElementById('texto').innerHTML = '<font style="color:red">Esse jogo nao pode ser jogado em celulares.<br>Acesse ele em um computador para poder jogar</font>';
+	document.getElementById('foot').innerHTML = ' ';
 }
 
 
