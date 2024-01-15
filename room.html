@@ -59,7 +59,10 @@
     }
 
     document.addEventListener('keydown', (x) => {
-        if (x.key === 'd') {
+        if (x.key === 'p') {
+            debugMenu();
+        } 
+		if (x.key === 'd') {
             if (lado == 4)
                 lado = 1;
             else
@@ -998,7 +1001,7 @@
 
 
 
-    //debugMenu();
+     
     function debugMenu() {
         let fundo = document.createElement('div');
         fundo.style.backgroundColor = 'black';
