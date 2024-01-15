@@ -24,6 +24,7 @@
 
     </center>
     <div class="alerta2" id="alerta2"></div>
+    <div class="alerta3" id="alerta3"></div>
 </body>
 
 <script>
@@ -45,6 +46,7 @@
     var yMouse = 0;
     var mensagem = document.getElementById('alerta');
     var mensagem2 = document.getElementById('alerta2');
+    var mensagem3 = document.getElementById('alerta3');
 
 
 
@@ -733,6 +735,18 @@
         }
 
     }
+	
+	instrucao('Use as teclas <font style="color:yellow">A,W,D</font> para se movimentar');
+	
+	 function instrucao(msg) {
+         
+            mensagem3.innerHTML = msg;
+            mensagem3.style.display = 'block'; 
+		setTimeout(()=>{
+		mensagem3.style.display = 'none';
+		},5000);
+
+    }
 
     function telefoneMudo() {
         setTimeout(() => {
@@ -937,9 +951,9 @@
         }
         else if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
 			if(radioLigado)
-				msgEstaticaSemFundo('Radio - <font style="color:yellow;font-family:Georgia">Clique para desligar</font>');
+				msgEstaticaSemFundo('Radio - <font style="color:red;font-family:Georgia">Clique para desligar</font>');
 			else
-				msgEstaticaSemFundo('Radio - <font style="color:yellow;font-family:Georgia">Clique para ligar </font>');
+				msgEstaticaSemFundo('Radio - <font style="color:green;font-family:Georgia">Clique para ligar </font>');
         }
         else if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
             msgEstaticaSemFundo('Relógio-Ponto');

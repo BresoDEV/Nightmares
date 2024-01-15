@@ -167,3 +167,14 @@ footer{
     background-color: black;
     padding: 15px;
 }
+.alerta3{
+    position: fixed;
+    text-align: left; 
+    top: 10px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    margin-left: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: black;
+    padding: 15px;
+}
