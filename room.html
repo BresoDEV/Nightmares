@@ -794,8 +794,9 @@
         if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
             //msgEstatica('Radio');
 			if(radioLigado)
-			{
-			radio.stop();
+			{ 
+			radio.pause();
+			radio.currentTime = 0;
 			radioLigado = false;
 			}
 			else
