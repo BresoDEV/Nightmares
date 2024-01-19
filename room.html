@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -7,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="movimentacao.js"></script>
     <title>Nightmares Game</title>
 </head>
 
@@ -29,15 +29,18 @@
 
 <script>
 
-	var debugmenuBool = false;
-	var debugmenu =debugMenu();
+
+    var debugmenuBool = false;
+
 
     var dificuldade = 'facil';
     //if (localStorage.getItem('dificuldade')) {
     //    dificuldade = localStorage.getItem('dificuldade');
     //}
-	var radioLigado = false;
-	var radio;
+    var radioLigado = false;
+    var radio;
+
+    var nomeNota = 'nota1.jpg';
 
 
     const cenario = document.getElementById('cenario');
@@ -49,6 +52,17 @@
     var mensagem2 = document.getElementById('alerta2');
     var mensagem3 = document.getElementById('alerta3');
 
+    var debugmenu = debugMenu();
+
+    var mapaSendoExibido = false;
+
+
+    var visualizou_anotacaoEstranha = '0';
+
+    var tempoEspera = 0;
+    var tempoEspera_concluido = false;
+    var ultimoTelefonema = false;
+
 
 
 
@@ -59,622 +73,432 @@
         case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
     }
 
-    document.addEventListener('keypress', (x) => {
-	
-		 
-        if (x.key === 'p') {
-			if(!debugmenuBool)
-				{ 
-				debugmenu.style.display = 'block';
-				debugmenuBool = true;
-				}
-				else
-				{
-				debugmenu.style.display = 'none';
-				debugmenuBool = false;
-				}
-				 
-        } 
-		if (x.key === 'd') {
-            fadeIN(()=>{
-			if (lado == 4)
-                lado = 1;
-            else
-                lado++;
-				
-				});
-			  	
+
+
+    // let startX;
+    // document.addEventListener('touchmove',(x)=>{
+    //     const cX = x.touches[0].clientX;
+    //     const delta = cX - startX;
+    //     
+    //     setTimeout(() => {  
+    //     if(delta>0)
+    //     {
+    //         fadeIN(()=>{
+    //		if (lado == 4)
+    //             lado = 1;
+    //         else
+    //             lado++;
+    //			
+    //			});
+    //     }else if(delta<0)
+    //     {
+    //         fadeIN(()=>{
+    //		if (lado == 1)
+    //             lado = 4;
+    //         else
+    //             lado--;
+    //			});
+    //			
+    //     }
+    //     }, 1000);
+    // });
+    // document.addEventListener('touchstart',(x)=>{
+    //     startX = x.touches[0].clientX;
+    // });
+
+
+    function MostrarNota() {
+        var nota = document.createElement('img');
+        nota.src = 'imgs/' + nomeNota;
+        nota.style.left = '35%';
+        nota.style.width = '30%';
+        nota.style.height = '300px';
+        nota.style.top = '25%';
+        nota.style.position = 'fixed';
+        document.body.append(nota);
+
+        nota.addEventListener('click', () => {
+            nota.remove();
+        });
+
+        if (anotacaoEstranha === '1') {
+            if (visualizou_anotacaoEstranha === '0') {
+                som('terror.mp3');
+                msgEstatica('-Que porra é essa?! <br>-Preciso comunicar o Julio!!', 5000);
+                visualizou_anotacaoEstranha = '1';
+                localStorage.setItem('visualizou_anotacaoEstranha', '1');
+            }
+            else {
+                msgEstatica('-Muito estranho isso...', 5000);
+            }
         }
-        if (x.key === 'a') {
-            fadeIN(()=>{
-			if (lado == 1)
-                lado = 4;
-            else
-                lado--;
-				});
-				
-			 		
+    }
+
+
+
+
+    var numLigacao = localStorage.getItem('numLigacao');
+    var jaBateuPonto = localStorage.getItem('jaBateuPonto');
+    var fezRonda = localStorage.getItem('fezRonda');
+    var encontrouAlgoSuspeito = localStorage.getItem('encontrouAlgoSuspeito');
+    var ligouEnergia = localStorage.getItem('ligouEnergia');
+    var anotacaoEstranha = localStorage.getItem('anotacaoEstranha');
+
+
+
+
+    cenario.addEventListener('click', () => {
+
+        if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
+            if (encontrouAlgoSuspeito === '0') {
+                som('terror.mp3');
+                localStorage.setItem('encontrouAlgoSuspeito', '1');
+                msgEstatica('Santo Deus!! Preciso reportar isso imediatamente!!');
+            }
+            else {
+                msgEstatica('As marcas continuam aqui...');
+            }
         }
 
-        if (x.key === 'w') 
-		{
-			fadeIN(()=>{
-			
-			switch (quartoAtual) 
-			{
-                case 1:
-                    {
-                        switch (lado) {
-                            case 4: 
-                            
-                            //quartoAtual = 2; lado = 1';
-                            quartoAtual = 2; lado = 1; 
-                             
-                            break;//sai da portaria
-                        }
-                    }
-                    break;
+        if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
+            if (ligouEnergia === '0') {
+                som('blip.wav');
+                msgEstatica('Energia restaurada');
+                localStorage.setItem('ligouEnergia', '1');
+                // window.location.reload();//att pra mudar a foto
+            }
+            else {
+                msgEstatica('<font style="color:yellow;font-family:Georgia">Luz ja foi restaurada</font>');
+                som('blip.wav');
 
-                case 2:
-                    {
-                        switch (lado) {
-                            case 1: quartoAtual = 3; lado = 1;   break;//segue pra baixo
-                            case 4: quartoAtual = 1; lado = 1;   break;//entra na portaria
-                        }
-                    }
-                    break;
+                quartoAtual = 27;
+                lado = 2;
+            }
+            msgEstaticaSemFundo('Painel de Energia');
+            RecarregarParedes();
+        }
 
-                case 3:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 2; lado = 4;   break;//volta
-                            case 2: quartoAtual = 4; lado = 2;   break;//direcao ao banheiro
-                            case 1: quartoAtual = 9; lado = 1;   break;//desce
-
-                        }
-                    }
-                    break;
-
-                //=------------------------------------------------
-                case 4:
-                    {
-                        switch (lado) {
-                            case 1: quartoAtual = 5; lado = 1;   break;//entra banheiro
-                            case 4: quartoAtual = 3; lado = 1;   break;//desce
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 5:
-                    {
-                        switch (lado) {
-                            case 1: quartoAtual = 6; lado = 2;   break;//entra banheiro
-                            case 2: quartoAtual = 4; lado = 3;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 6:
-                    {
-                        switch (lado) {
-                            case 1: quartoAtual = 7; lado = 1;   break;//entra banheiro
-                            case 4: quartoAtual = 5; lado = 3;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 7:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 6; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 8; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 8:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 7; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 8; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 9:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 3; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 10; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 10:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 9; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 11; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 11:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 10; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 12; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 12:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 11; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 15; lado = 1;   break;//sai banheiro
-                            case 2: quartoAtual = 13; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 13:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 12; lado = 1;   break;//entra banheiro
-                            case 1: quartoAtual = 14; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 14:
-                    {
-                        switch (lado) {
-                            case 4: quartoAtual = 13; lado = 3;   break;//entra banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 15:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 12; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 16; lado = 1;   break;//sai banheiro
-                            case 2: msgEstatica('Melhor não ir nesse local, está muito escuro...'); break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 16:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 15; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 17; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 17:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 16; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 18; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 18:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 17; lado = 3;   break;//entra banheiro
-                            case 4: quartoAtual = 19; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 44; lado = 3;   break;//sai banheiro
-                            case 2: msgEstatica('Melhor não ir por aqui, não sei onde vai dar!', 3000); break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 19:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 18; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 20; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-
-                //=------------------------------------------------
-                case 20:
-                    {
-                        switch (lado) {
-                            case 2: quartoAtual = 19; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 21; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 21:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 20; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 22; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 22:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 21; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 23; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 23:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 22; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 24; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 24:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 23; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 25; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 25:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 24; lado = 3;   break;//entra banheiro
-                            case 1: quartoAtual = 28; lado = 1;   break;//sai banheiro
-                            case 4: quartoAtual = 26; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 26:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 25; lado = 1;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 27; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 27:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 26; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            //case 1: quartoAtual = 27; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 28:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 25; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 29; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 29:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 28; lado = 3;   break;//entra banheiro
-                            case 2: quartoAtual = 41; lado = 3;   break;//sai banheiro
-                            case 1: quartoAtual = 30; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 30:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 29; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 31; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 31:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 30; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 32; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 32:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 31; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 33; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 33:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 32; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 34; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 34:
-                    {
-                        //marca que fez a ronda
-                        localStorage.setItem('fezRonda', '1');
-                        switch (lado) {
-                            case 3: quartoAtual = 33; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 35; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 35:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 34; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 36; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 36:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 35; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 37; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 37:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 36; lado = 3;   break;//entra banheiro
-                            //case 1: quartoAtual = 26; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 38; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 38:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 37; lado = 3;   break;//entra banheiro
-                            case 4: quartoAtual = 39; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 40; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 39:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 38; lado = 1;   break;//entra banheiro
-                            //case 4: quartoAtual = 39; lado = 1;   break;//sai banheiro
-                            case 1: msgEstatica('Melhor não ir por aqui, não tem luz nenhuma!', 3000); break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 40:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 38; lado = 3;   break;//entra banheiro
-                            case 2: quartoAtual = 41; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 42; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 41:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 40; lado = 4;   break;//entra banheiro
-                            //case 2: quartoAtual = 41; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 29; lado = 4;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 42:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 40; lado = 3;   break;//entra banheiro
-                            // case 2: quartoAtual = 41; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 43; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 43:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 42; lado = 3;   break;//entra banheiro
-                            // case 2: quartoAtual = 41; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 44; lado = 1;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                case 44:
-                    {
-                        switch (lado) {
-                            case 3: quartoAtual = 43; lado = 3;   break;//entra banheiro
-                            // case 2: quartoAtual = 41; lado = 1;   break;//sai banheiro
-                            case 1: quartoAtual = 18; lado = 3;   break;//sai banheiro
-
-                        }
-                    }
-                    break;
-                //=------------------------------------------------
-                //=------------------------------------------------
-                //=------------------------------------------------
-                //=------------------------------------------------
-                //=------------------------------------------------
-                //=------------------------------------------------
-                //=------------------------------------------------
-                //=------------------------------------------------
+        if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
+            som('papel.wav');
+            //msgEstatica('Caderno de anotacoes');
+            MostrarNota();
+        }
+        if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
+            //msgEstatica('Radio');
+            if (radioLigado) {
+                radio.pause();
+                radio.currentTime = 0;
+                radioLigado = false;
+            }
+            else {
+                radio = som('radio.wav', true);
+                radioLigado = true;
             }
 
-			});
-		 
-            
+        }
+        if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
+            if (jaBateuPonto === '0') {
+                msgEstatica('Ponto registrado');
+                som('blip.wav');
+                localStorage.setItem('jaBateuPonto', '1');
+            }
+            else {
+                msgEstatica('<font style="color:red;font-family:Georgia">Ponto ja foi registrado</font>');
+                som('blip.wav');
+            }
+        }
+        if (verificarObjeto(14, 1, 29, 3, 67, 93) ||
+            verificarObjeto(21, 4, 33, 2, 65, 93) ||
+            verificarObjeto(44, 2, 60, 16, 84, 71) ||
+            verificarObjeto(42, 4, 42, 1, 66, 71) ||
+            verificarObjeto(37, 4, 51, 11, 81, 71) ||
+            verificarObjeto(28, 4, 21, 3, 71, 99) ||
+            verificarObjeto(2, 3, 44, 7, 71, 70) ||
+            verificarObjeto(44, 4, 65, 12, 81, 68)) {
+            msgEstatica('Porta trancada');
+            som('trancado.mp3');
+        }
+        if (verificarObjeto(5, 4, 12, 22, 87, 87)) {
+            msgEstatica('Trancada');
+            som('trancado.mp3');
+        }
+        if (verificarObjeto(8, 1, 1, 30, 30, 98)) {
+            som('xixi.mp3');
+        }
+        if (verificarObjeto(1, 2, 20, 77, 33, 86) || verificarObjeto(1, 1, 92, 75, 100, 86)) {
+            //falas
+            som('telefone.wav');
+            if (numLigacao === '0') {
+                msgEstatica('-Hey novato, aqui é o Júlio, seu colega. Bem vindo ao seu primeiro dia.<br>-Depois dê uma olhada na empresa, e nao esqueça de registrar o horario-ponto', 10000);
+                localStorage.setItem('numLigacao', '1');
+            }
+            else if (numLigacao === '1') {
+                if (jaBateuPonto === '0') {
+                    msgEstatica('-Hey novato, não vi seu registro da noite ainda! Não esqueça de fazer.', 5000);
+                }
+                else {
+                    msgEstatica('-Seu registro chegou aqui no sistema. Até logo.<br>-Se precisar de algo, me ligue..', 7000);
+                    localStorage.setItem('numLigacao', '2');
+                }
 
-        } 
-		 
-		RecarregarParedes();
-		
+            }
+            else if (numLigacao === '2') {
+                if (fezRonda === '0') {
+                    msgEstatica('-Hey novato, vá conheçer a empresa garoto, depois me ligue caso encontrar algo suspeito.', 5000);
+                }
+                else {
+                    if (encontrouAlgoSuspeito !== '0') {
+                        msgEstatica('-Oque voce viu? Não dê bola para isso, pelo menos por enquanto.<br>-Apenas...fique de olho..<br>-Se cuide ai!', 10000);
+                        localStorage.setItem('numLigacao', '3');
+                    }
+                    else {
+                        msgEstatica('-Gostou da empresa garoto? Tranquila né!.<br>-Enfim, se precisar de algo, me ligue..<br>-Se cuide ai!', 10000);
+                        localStorage.setItem('numLigacao', '3');
+                    }
+
+                }
+            }
+            else if (numLigacao === '3') {
+                if (encontrouAlgoSuspeito !== '0') {
+                    msgEstatica('-Não dê bola para oque voce viu, ok?.<br>-Apenas...se cuide..<br>', 10000);
+                    localStorage.setItem('numLigacao', '4');
+                }
+                else {
+
+                    msgEstatica('....', 3000);
+                    localStorage.setItem('numLigacao', '3');
+                    telefoneMudo();
+                }
+            }
+            else if (numLigacao === '4') {
+                if (ligouEnergia === '0') {
+                    msgEstatica('-Estou vendo que estão sem energia aqui.<br>-Desça lá e ligue no painel<br>-Me avise quando ligar', 10000);
+                    localStorage.setItem('numLigacao', '5');
+                }
+                else {
+                    msgEstatica('-Otimo,vi que ja ligou a luz<br>-Otimo trabalho!<br>-Se cuide ai!', 10000);
+                    localStorage.setItem('numLigacao', '6');
+                }
+
+            }
+            else if (numLigacao === '5') {
+                if (ligouEnergia === '0') {
+                    msgEstatica('-Estão sem energia aqui ainda novato!!.<br>-Desça lá e ligue no painel RÁPIDOOO!', 10000);
+                    localStorage.setItem('numLigacao', '5');
+                }
+                else {
+                    msgEstatica('-Finalmente!! Luz funcionando', 10000);
+                    localStorage.setItem('numLigacao', '6');
+                }
+
+            }
+            else if (numLigacao === '6') {
+                msgEstatica('....', 3000);
+                localStorage.setItem('numLigacao', '7');
+                telefoneMudo();
+                anotacaoEstranha = '1';
+                localStorage.setItem('anotacaoEstranha', '1');
+            }
+            else if (numLigacao === '7') {
+                if (visualizou_anotacaoEstranha == '1') {
+                    msgEstatica('-Como assim? Acho que tu ta com sono, ta vendo coisas..<br>', 7000);
+                    localStorage.setItem('numLigacao', '8');
+                }
+                else {
+                    msgEstatica('....', 3000);
+                    localStorage.setItem('numLigacao', '7');
+                    telefoneMudo();
+                    anotacaoEstranha = '1';
+                    localStorage.setItem('anotacaoEstranha', '1');
+                }
+            }
+            else if (numLigacao === '8') {
+                if (tempoEspera_concluido && ultimoTelefonema === false) {
+                    msgEstatica('VOCE VAI MORRER! NOVATO', 7000);
+                    som('terror.mp3');
+                    localStorage.setItem('numLigacao', '9');
+                    ultimoTelefonema = true
+                }
+                else {
+                    msgEstatica('....', 3000);
+                    localStorage.setItem('numLigacao', '8');
+                    telefoneMudo();
+                }
+
+            }
+            else if (numLigacao === '9' && ultimoTelefonema) {
+
+                msgEstatica('....', 3000);
+
+                telefoneMudo();
+
+                var indexfade = 100;
+                var aa = setInterval(() => {
+                    if (indexfade !== 0) {
+                        indexfade--;
+                        cenario.style.opacity = indexfade * 0.1;
+                    }
+                    else {
+                        clearInterval(aa);
+                        quartoAtual = 1; lado = 1;
+                        RecarregarParedes();
+
+                        var aa2 = setInterval(() => {
+                            if (indexfade !== 100) {
+                                indexfade++;
+                                cenario.style.opacity = indexfade * 0.1;
+                            }
+                            else {
+                                clearInterval(aa2);
+                                localStorage.setItem('numLigacao', '10');
+                            }
+                        }, 200);
+
+
+
+
+                    }
+                }, 100);
+
+
+            }
+            else if (numLigacao === '10') {
+                setTimeout(() => {
+                    msgEstatica('-Alo?? Esta ai? Que brincadeira foi aquela?', 5000);
+                    setTimeout(() => {
+                        msgEstatica('-<i>Ola novato,aqui é o João, pegou no sono? haha</i>', 5000);
+                        setTimeout(() => {
+                            msgEstatica('João? Quem é voce? Cade o Julio??', 5000);
+                            setTimeout(() => {
+                                msgEstatica('-<i>Julio? Conheçeu ele?</i>', 5000);
+                                setTimeout(() => {
+                                    msgEstatica('-Claro, falei com ele a noite toda!!', 5000);
+                                    setTimeout(() => {
+                                        msgEstatica('-<i>Oque??? Ta brincando comigo novato?<br>Julio era o antigo vigia...</i>', 5000);
+                                        setTimeout(() => {
+                                            msgEstatica('-<i>...ele foi assasinado faz uns 2 meses.</i>', 5000);
+                                            setTimeout(() => {
+                                                msgEstatica('-Não é possivel! Devo ter sonhado. Obrigado João...', 5000);
+                                                setTimeout(() => {
+                                                    telefoneMudo();
+                                                    setTimeout(() => {
+                                                        msgEstatica('Oque está acontecendo...não pode ter sido minha imaginação..', 7000);
+                                                        setTimeout(() => {
+                                                            msgEstatica('As marcas de sangue! Tenho que ver se estão lá ainda!', 7000);
+                                                            localStorage.setItem('numLigacao', '10');
+
+                                                            var vvvv = setInterval(() => {
+                                                                if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
+                                                                    clearInterval(vvvv);
+                                                                    som('passos.mp3');
+                                                                    setTimeout(() => {
+                                                                        som('terror.mp3');
+                                                                        var indexfade = 100;
+                                                                        var aa = setInterval(() => {
+                                                                            if (indexfade !== 0) {
+                                                                                indexfade--;
+                                                                                cenario.style.opacity = indexfade * 0.1;
+                                                                            }
+                                                                            else {
+
+
+                                                                                localStorage.setItem('numLigacao', '0');
+                                                                                localStorage.setItem('jaBateuPonto', '0');
+                                                                                localStorage.setItem('fezRonda', '0');
+                                                                                localStorage.setItem('encontrouAlgoSuspeito', '0');
+                                                                                localStorage.setItem('ligouEnergia', '0');
+                                                                                localStorage.setItem('anotacaoEstranha', '0');
+                                                                                localStorage.setItem('visualizou_anotacaoEstranha', '0');
+
+                                                                                window.location.href = 'fim.html';
+                                                                            }
+                                                                        }, 100);
+
+                                                                    }, 8000);
+                                                                }
+                                                            }, 1);
+
+                                                        }, 10000);
+                                                    }, 10000);
+                                                }, 5000);
+                                            }, 5000);
+                                        }, 5000);
+                                    }, 5000);
+                                }, 5000);
+                            }, 5000);
+                        }, 5000);
+                    }, 5000);
+                }, 5000);
+
+            }
+
+
+
+
+        }
     });
 
 
-	function fadeIN(voids) {
-    let i = 100;
-    let lp1 = setInterval(() => {
 
-        
-        if (i <= 0) {
 
-            clearInterval(lp1);
-			voids();
-			switch (lado) {
-            case 1:
-                cenario.src = 'rooms/' + quartoAtual + '/1.jpg';
-                break;
-            case 2:
-                //poe a img de desligada,se nao ativou a luz
-                if (localStorage.getItem('ligouEnergia') === '0') {
-                    if (quartoAtual === 27 && lado === 2) {
-                        cenario.src = 'rooms/27/2_2.jpg';
+
+    function fadeIN(voids) {
+        let i = 100;
+        let lp1 = setInterval(() => {
+
+
+            if (i <= 0) {
+
+                clearInterval(lp1);
+                voids();
+                switch (lado) {
+                    case 1:
+                        cenario.src = 'rooms/' + quartoAtual + '/1.jpg';
+                        break;
+                    case 2:
+                        //poe a img de desligada,se nao ativou a luz
+                        if (localStorage.getItem('ligouEnergia') === '0') {
+                            if (quartoAtual === 27 && lado === 2) {
+                                cenario.src = 'rooms/27/2_2.jpg';
+                            } else {
+                                cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+
+                            }
+                        } else {
+                            cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                        }
+                        break;
+                    case 3:
+                        cenario.src = 'rooms/' + quartoAtual + '/3.jpg';
+                        break;
+                    case 4:
+                        cenario.src = 'rooms/' + quartoAtual + '/4.jpg';
+                        break;
+                }
+                let lp2 = setInterval(() => {
+                    if (i >= 100) {
+
+                        clearInterval(lp2);
+
+
+
                     } else {
-                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                         
+                        i++;
+                        cenario.style.opacity = i * 0.1;
                     }
-                } else {
-                    cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                }
-                break;
-            case 3:
-                cenario.src = 'rooms/' + quartoAtual + '/3.jpg';
-                break;
-            case 4:
-                cenario.src = 'rooms/' + quartoAtual + '/4.jpg';
-                break;
-        }
-            let lp2 = setInterval(() => {
-                if (i >= 100) {
-
-                    clearInterval(lp2);
+                }, 10);
 
 
 
-                } else {
-                    i++;
-                    cenario.style.opacity = i * 0.1;
-                }
-            }, 10);
+            } else {
+                i--;
+                cenario.style.opacity = i * 0.1;
+            }
+        }, 10);
+    }
 
 
 
-        } else {
-            i--;
-            cenario.style.opacity = i * 0.1;
-        }
-    }, 10);
-}
-
-    function RecarregarParedes()
-	{
-	switch (lado) {
-            case 1:
-                cenario.src = 'rooms/' + quartoAtual + '/1.jpg';
-                break;
-            case 2:
-                //poe a img de desligada,se nao ativou a luz
-                if (localStorage.getItem('ligouEnergia') === '0') {
-                    if (quartoAtual === 27 && lado === 2) {
-                        cenario.src = 'rooms/27/2_2.jpg';
-                    } else {
-                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                         
-                    }
-                } else {
-                    cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                }
-                break;
-            case 3:
-                cenario.src = 'rooms/' + quartoAtual + '/3.jpg';
-                break;
-            case 4:
-                cenario.src = 'rooms/' + quartoAtual + '/4.jpg';
-                break;
-        }
-	}
-	 
 
     //renderiza ao mudar de quarto
     var i = 0;
@@ -687,25 +511,23 @@
             cenario.style.opacity = i * 0.1;
             switch (lado) {
                 case 1: cenario.src = 'rooms/' + quartoAtual + '/1.jpg'; break;
-                            case 2:
-                                //poe a img de desligada,se nao ativou a luz
-                                if (localStorage.getItem('ligouEnergia') === '0') {
-                                    if (quartoAtual === 27 && lado === 2) {
-                                        cenario.src = 'rooms/27/2_2.jpg';
-                                    }
-                                    else
-                                    {
-                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                                    }
-                                }
-                                else
-                                    {
-                                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
-                                    }
-                                break;
-                            case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
-                            case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
-                      
+                case 2:
+                    //poe a img de desligada,se nao ativou a luz
+                    if (localStorage.getItem('ligouEnergia') === '0') {
+                        if (quartoAtual === 27 && lado === 2) {
+                            cenario.src = 'rooms/27/2_2.jpg';
+                        }
+                        else {
+                            cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                        }
+                    }
+                    else {
+                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                    }
+                    break;
+                case 3: cenario.src = 'rooms/' + quartoAtual + '/3.jpg'; break;
+                case 4: cenario.src = 'rooms/' + quartoAtual + '/4.jpg'; break;
+
             }
             //poe a img de desligada,se nao ativou a luz
             if (localStorage.getItem('ligouEnergia') === '0') {
@@ -748,282 +570,81 @@
 
 
 
-    function msg(msg) {
-        mensagem.innerHTML = msg;
-    }
-    function som(audio, loop = false) {
-        var a = new Audio('audio/' + audio);
-        a.volume = 1;
-        if (loop)
-            a.loop = true;
-        a.play();
-		return a;
-    }
+    var visaoNoturna = false;
 
-    somAmbiente('ambiente.mp3', true);
-    function somAmbiente(audio, loop = false) {
-        var ab = new Audio('audio/' + audio);
-        ab.volume = 0.2;
-        if (loop)
-            ab.loop = true;
-        ab.play();
-    }
-
-    function msgEstatica(msg, tempo = 3000) {
-        mensagem.innerHTML = msg;
-        mensagem.style.backgroundColor = 'black';
-        mensagem.style.border = '1px solid aliceblue';
-        setTimeout(() => {
-            mensagem.innerHTML = '';
-            mensagem.style.backgroundColor = 'transparent';
-            mensagem.style.border = 'none';
-        }, tempo);
-    }
-    function msgEstaticaSemFundo(msg) {
-        if (msg === '') {
-            mensagem2.style.display = 'none';
+    setInterval(() => {
+        if(visaoNoturna)
+        {
+            cenario.style.filter = ' sepia(100%) saturate(100%) hue-rotate(100deg) brightness(300%) contrast(100%)';
+       }
+        else
+        {
+            cenario.style.filter = 'sepia(20%) saturate(150%) hue-rotate(-30deg) brightness(80%) contrast(120%)';
         }
-        else {
-            mensagem2.innerHTML = msg;
-            mensagem2.style.display = 'block';
-        }
+    }, 100);
 
-    }
-	
-	instrucao('Aguarde enquanto carregamos os cenários...');
-	
-	 function instrucao(msg) {
-         
-            mensagem3.innerHTML = msg;
-            mensagem3.style.display = 'block'; 
-		setTimeout(()=>{
-		mensagem3.style.display = 'none';
-		},10000);
-
-    }
-
-    function telefoneMudo() {
-        setTimeout(() => {
-            som('telefone.wav');
-            setTimeout(() => {
-                som('telefone.wav');
-                setTimeout(() => {
-                    som('telefone.wav');
-                }, 1000);
-            }, 1000);
-        }, 1000);
-    }
-
-
-    function verificarObjeto(N_quarto, parede, x1, y1, x2, y2) {
-
-        if (quartoAtual === N_quarto && lado === parede && xMouse >= x1 && yMouse >= y1 && xMouse <= x2 && yMouse <= y2) {
-            return true;
-        }
-        return false;
-    }
-
-
-
-
-
-
-
-    var numLigacao = localStorage.getItem('numLigacao');
-    var jaBateuPonto = localStorage.getItem('jaBateuPonto');
-    var fezRonda = localStorage.getItem('fezRonda');
-    var encontrouAlgoSuspeito = localStorage.getItem('encontrouAlgoSuspeito');
-    var ligouEnergia = localStorage.getItem('ligouEnergia');
-
-
-
-
-    cenario.addEventListener('click', () => {
-
-		if(verificarObjeto(24, 4, 11, 26, 27, 36))
-		{
-			if(encontrouAlgoSuspeito === '0')
-			{
-			som('terror.mp3');
-			localStorage.setItem('encontrouAlgoSuspeito','1');
-			msgEstatica('Santo Deus!! Preciso reportar isso imediatamente!!');
-			}
-			else
-			{
-			msgEstatica('As marcas continuam aqui...');
-			}
-		}
-
-        if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
-            if (ligouEnergia === '0') {
-                som('blip.wav');
-                msgEstatica('Energia restaurada');
-                localStorage.setItem('ligouEnergia', '1');
-                // window.location.reload();//att pra mudar a foto
-            }
-            else {
-                msgEstatica('<font style="color:yellow;font-family:Georgia">Luz ja foi restaurada</font>');
-                som('blip.wav');
-				 
-				quartoAtual = 27;
-				lado = 2;
-            }
-            msgEstaticaSemFundo('Painel de Energia');
-			RecarregarParedes();
-        }
-
-        if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
-            som('papel.wav');
-            //msgEstatica('Caderno de anotacoes');
-        }
-        if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
-            //msgEstatica('Radio');
-			if(radioLigado)
-			{ 
-			radio.pause();
-			radio.currentTime = 0;
-			radioLigado = false;
-			}
-			else
-			{
-			radio = som('radio.wav', true);
-			radioLigado = true;
-			}
-            
-        }
-        if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
-            if (jaBateuPonto === '0') {
-                msgEstatica('Ponto registrado');
-                som('blip.wav');
-                localStorage.setItem('jaBateuPonto', '1');
-            }
-            else {
-                msgEstatica('<font style="color:red;font-family:Georgia">Ponto ja foi registrado</font>');
-                som('blip.wav');
-            }
-        }
-        if (verificarObjeto(14, 1, 29, 3, 67, 93) ||
-            verificarObjeto(21, 4, 33, 2, 65, 93)||
-            verificarObjeto(44, 2, 60, 16, 84, 71)||
-            verificarObjeto(42, 4, 42, 1, 66, 71)||
-            verificarObjeto(37, 4, 51, 11, 81, 71)||
-            verificarObjeto(28, 4, 21, 3, 71, 99)||
-            verificarObjeto(2, 3, 44, 7, 71, 70)||
-            verificarObjeto(44, 4, 65, 12, 81, 68)) {
-            msgEstatica('Porta trancada');
-            som('trancado.mp3');
-        }
-        if (verificarObjeto(5, 4, 12, 22, 87, 87)) {
-            msgEstatica('Trancada');
-            som('trancado.mp3');
-        }
-        if (verificarObjeto(8, 1, 1, 30, 30, 98)) {
-            som('xixi.mp3');
-        }
-        if (verificarObjeto(1, 2, 20, 77, 33, 86) || verificarObjeto(1, 1, 92, 75, 100, 86)) {
-
-            som('telefone.wav');
-            if (numLigacao === '0') {
-                msgEstatica('-Hey novato, aqui é o Júlio, seu colega. Bem vindo ao seu primeiro dia.<br>-Depois dê uma olhada na empresa, e nao esqueça de registrar o horario-ponto', 10000);
-                localStorage.setItem('numLigacao', '1');
-            }
-            else if (numLigacao === '1') {
-                if (jaBateuPonto === '0') {
-                    msgEstatica('-Hey novato, não vi seu registro da noite ainda! Não esqueça de fazer.', 5000);
-                }
-                else {
-                    msgEstatica('-Seu registro chegou aqui no sistema. Até logo.<br>-Se precisar de algo, me ligue..', 7000);
-                    localStorage.setItem('numLigacao', '2');
-                }
-
-            }
-            else if (numLigacao === '2') {
-                if (fezRonda === '0') {
-                    msgEstatica('-Hey novato, vá conheçer a empresa garoto, depois me ligue caso encontrar algo suspeito.', 5000);
-                }
-                else {
-                    if (encontrouAlgoSuspeito !== '0') {
-                        msgEstatica('-Oque voce viu? Não dê bola para isso, pelo menos por enquanto.<br>-Apenas...fique de olho..<br>-Se cuide ai!', 10000);
-                        localStorage.setItem('numLigacao', '3');
-                    }
-                    else {
-                        msgEstatica('-Gostou da empresa garoto? Tranquila né!.<br>-Enfim, se precisar de algo, me ligue..<br>-Se cuide ai!', 10000);
-                        localStorage.setItem('numLigacao', '3');
-                    }
-
-                }
-            }
-            else if (numLigacao === '3') {
-                if (encontrouAlgoSuspeito !== '0') {
-                    msgEstatica('-Oque voce viu? Não dê bola para isso, pelo menos por enquanto.<br>-Apenas...fique de olho..<br>-Se cuide ai!', 10000);
-                    localStorage.setItem('numLigacao', '4');
-                }
-                else {
-
-                    msgEstatica('....', 3000);
-                    localStorage.setItem('numLigacao', '3');
-                    telefoneMudo();
-                }
-            }
-            else if (numLigacao === '4') {
-                if (ligouEnergia === '0') {
-                    msgEstatica('-Estou vendo que estão sem energia aqui.<br>-Desça lá e ligue no painel<br>-Me avise quando ligar', 10000);
-                    localStorage.setItem('numLigacao', '5');
-                }
-                else {
-                    msgEstatica('-Otimo,vi que ja ligou a luz<br>-Otimo trabalho!<br>-Se cuide ai!', 10000);
-                    localStorage.setItem('numLigacao', '6');
-                }
-
-            }
-            else if (numLigacao === '5') {
-                if (ligouEnergia === '0') {
-                    msgEstatica('-Estão sem energia aqui ainda novato!!.<br>-Desça lá e ligue no painel RÁPIDOOO!', 10000);
-                    localStorage.setItem('numLigacao', '5');
-                }
-                else {
-                    msgEstatica('-Finalmente!! Luz funcionando', 10000);
-                    localStorage.setItem('numLigacao', '6');
-                }
-
-            }
-            else if (numLigacao === '6') {
-                msgEstatica('....', 3000);
-                localStorage.setItem('numLigacao', '6');
-                telefoneMudo();
-
-            }
-
-
-
-
+    document.addEventListener('keypress', (x) => {
+        if (x.key === 'i') {
+            visaoNoturna =!visaoNoturna;
         }
     });
 
+
+    //loop 1 seg
     setInterval(() => {
         jaBateuPonto = localStorage.getItem('jaBateuPonto');
         numLigacao = localStorage.getItem('numLigacao');
         fezRonda = localStorage.getItem('fezRonda');
         encontrouAlgoSuspeito = localStorage.getItem('encontrouAlgoSuspeito');
         ligouEnergia = localStorage.getItem('ligouEnergia');
+        anotacaoEstranha = localStorage.getItem('anotacaoEstranha');
+        visualizou_anotacaoEstranha = localStorage.getItem('visualizou_anotacaoEstranha');
+
+
+        if (jaBateuPonto === '1') {
+            nomeNota = 'nota2.jpg';
+            if (fezRonda === '1') {
+                nomeNota = 'nota3.jpg';
+                if (ligouEnergia === '1') {
+                    nomeNota = 'nota4.jpg';
+                    if (anotacaoEstranha === '1') {
+                        nomeNota = 'nota5.jpg';
+                        if (visualizou_anotacaoEstranha === '1') {
+                            tempoEspera++;
+                            console.log(tempoEspera);
+                            if (tempoEspera >= 500) {
+                                tempoEspera = 500;
+                                tempoEspera_concluido = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (tempoEspera_concluido && ultimoTelefonema === false && numLigacao === '8') {
+            if (quartoAtual === 1) {
+                som('telefone.wav');
+                msgEstaticaSemFundo('<font style="color:lime;font-family:Georgia">Atenda o telefone</font>');
+            }
+            else {
+                msgEstaticaSemFundo('Telefone está tocando. <br><font style="color:yellow;font-family:Georgia">Va ate o telefone</font>');
+            }
+        }
     }, 1000);
 
 
     //msg no canto da tela
     cenario.addEventListener('mousemove', () => {
-	
-		
-	
-	
-	
+
         if (verificarObjeto(1, 1, 27, 66, 36, 72)) {
-            msgEstaticaSemFundo('Caderno de anotacoes');
+            msgEstaticaSemFundo('Bloco de anotacoes');
         }
-		else if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
-			if(encontrouAlgoSuspeito === '0')
-				msgEstaticaSemFundo('SANGUE????');
-			else
-				msgEstaticaSemFundo('Marcas de sangue misteriosas');
+        else if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
+            if (encontrouAlgoSuspeito === '0')
+                msgEstaticaSemFundo('SANGUE????');
+            else
+                msgEstaticaSemFundo('Marcas de sangue misteriosas');
         }
         else if (verificarObjeto(27, 2, 43, 46, 65, 87)) {
             msgEstaticaSemFundo('Painel de Energia');
@@ -1032,10 +653,10 @@
             msgEstaticaSemFundo('Armário de Chaves');
         }
         else if (verificarObjeto(1, 2, 57, 70, 87, 94)) {
-			if(radioLigado)
-				msgEstaticaSemFundo('Radio - <font style="color:red;font-family:Georgia">Clique para desligar</font>');
-			else
-				msgEstaticaSemFundo('Radio - <font style="color:green;font-family:Georgia">Clique para ligar </font>');
+            if (radioLigado)
+                msgEstaticaSemFundo('Radio - <font style="color:red;font-family:Georgia">Clique para desligar</font>');
+            else
+                msgEstaticaSemFundo('Radio - <font style="color:green;font-family:Georgia">Clique para ligar </font>');
         }
         else if (verificarObjeto(10, 2, 42, 42, 57, 66)) {
             msgEstaticaSemFundo('Relógio-Ponto');
@@ -1056,11 +677,11 @@
             msgEstaticaSemFundo('Portao de Ferro');
         }
         else if (verificarObjeto(14, 1, 29, 3, 67, 93) ||
-            verificarObjeto(21, 4, 33, 2, 65, 93)||
-            verificarObjeto(44, 2, 60, 16, 84, 71)||
-            verificarObjeto(42, 4, 42, 1, 66, 71)||
-            verificarObjeto(37, 4, 51, 11, 81, 71)||
-            verificarObjeto(2, 3, 44, 7, 71, 70)||
+            verificarObjeto(21, 4, 33, 2, 65, 93) ||
+            verificarObjeto(44, 2, 60, 16, 84, 71) ||
+            verificarObjeto(42, 4, 42, 1, 66, 71) ||
+            verificarObjeto(37, 4, 51, 11, 81, 71) ||
+            verificarObjeto(2, 3, 44, 7, 71, 70) ||
             verificarObjeto(44, 4, 65, 12, 81, 68)) {
             msgEstaticaSemFundo('Porta - <font style="color:yellow;font-family:Georgia">Clique para interagir</font>');
         }
@@ -1080,7 +701,220 @@
 
 
 
-     
+
+
+
+
+
+    preCarregarImagens();
+
+    function preCarregarImagens() {
+        var imagens = [
+            'rooms/1/1.jpg',
+            'rooms/1/2.jpg',
+            'rooms/1/3.jpg',
+            'rooms/1/4.jpg',
+            'rooms/2/1.jpg',
+            'rooms/2/2.jpg',
+            'rooms/2/3.jpg',
+            'rooms/2/4.jpg',
+            'rooms/3/1.jpg',
+            'rooms/3/2.jpg',
+            'rooms/3/3.jpg',
+            'rooms/3/4.jpg',
+            'rooms/4/1.jpg',
+            'rooms/4/2.jpg',
+            'rooms/4/3.jpg',
+            'rooms/4/4.jpg',
+            'rooms/5/1.jpg',
+            'rooms/5/2.jpg',
+            'rooms/5/3.jpg',
+            'rooms/5/4.jpg',
+            'rooms/6/1.jpg',
+            'rooms/6/2.jpg',
+            'rooms/6/3.jpg',
+            'rooms/6/4.jpg',
+            'rooms/7/1.jpg',
+            'rooms/7/2.jpg',
+            'rooms/7/3.jpg',
+            'rooms/7/4.jpg',
+            'rooms/8/1.jpg',
+            'rooms/8/2.jpg',
+            'rooms/8/3.jpg',
+            'rooms/8/4.jpg',
+            'rooms/9/1.jpg',
+            'rooms/9/2.jpg',
+            'rooms/9/3.jpg',
+            'rooms/9/4.jpg',
+            'rooms/10/1.jpg',
+            'rooms/10/2.jpg',
+            'rooms/10/3.jpg',
+            'rooms/10/4.jpg',
+            'rooms/11/1.jpg',
+            'rooms/11/2.jpg',
+            'rooms/11/3.jpg',
+            'rooms/11/4.jpg',
+            'rooms/12/1.jpg',
+            'rooms/12/2.jpg',
+            'rooms/12/3.jpg',
+            'rooms/12/4.jpg',
+            'rooms/13/1.jpg',
+            'rooms/13/2.jpg',
+            'rooms/13/3.jpg',
+            'rooms/13/4.jpg',
+            'rooms/14/1.jpg',
+            'rooms/14/2.jpg',
+            'rooms/14/3.jpg',
+            'rooms/14/4.jpg',
+            'rooms/15/1.jpg',
+            'rooms/15/2.jpg',
+            'rooms/15/3.jpg',
+            'rooms/15/4.jpg',
+            'rooms/16/1.jpg',
+            'rooms/16/2.jpg',
+            'rooms/16/3.jpg',
+            'rooms/16/4.jpg',
+            'rooms/17/1.jpg',
+            'rooms/17/2.jpg',
+            'rooms/17/3.jpg',
+            'rooms/17/4.jpg',
+            'rooms/18/1.jpg',
+            'rooms/18/2.jpg',
+            'rooms/18/3.jpg',
+            'rooms/18/4.jpg',
+            'rooms/19/1.jpg',
+            'rooms/19/2.jpg',
+            'rooms/19/3.jpg',
+            'rooms/19/4.jpg',
+            'rooms/20/1.jpg',
+            'rooms/20/2.jpg',
+            'rooms/20/3.jpg',
+            'rooms/20/4.jpg',
+            'rooms/21/1.jpg',
+            'rooms/21/2.jpg',
+            'rooms/21/3.jpg',
+            'rooms/21/4.jpg',
+            'rooms/22/1.jpg',
+            'rooms/22/2.jpg',
+            'rooms/22/3.jpg',
+            'rooms/22/4.jpg',
+            'rooms/23/1.jpg',
+            'rooms/23/2.jpg',
+            'rooms/23/3.jpg',
+            'rooms/23/4.jpg',
+            'rooms/24/1.jpg',
+            'rooms/24/2.jpg',
+            'rooms/24/3.jpg',
+            'rooms/24/4.jpg',
+            'rooms/25/1.jpg',
+            'rooms/25/2.jpg',
+            'rooms/25/3.jpg',
+            'rooms/25/4.jpg',
+            'rooms/26/1.jpg',
+            'rooms/26/2.jpg',
+            'rooms/26/3.jpg',
+            'rooms/26/4.jpg',
+            'rooms/27/1.jpg',
+            'rooms/27/2.jpg',
+            'rooms/27/3.jpg',
+            'rooms/27/4.jpg',
+            'rooms/28/1.jpg',
+            'rooms/28/2.jpg',
+            'rooms/28/3.jpg',
+            'rooms/28/4.jpg',
+            'rooms/29/1.jpg',
+            'rooms/29/2.jpg',
+            'rooms/29/3.jpg',
+            'rooms/29/4.jpg',
+            'rooms/30/1.jpg',
+            'rooms/30/2.jpg',
+            'rooms/30/3.jpg',
+            'rooms/30/4.jpg',
+            'rooms/31/1.jpg',
+            'rooms/31/2.jpg',
+            'rooms/31/3.jpg',
+            'rooms/31/4.jpg',
+            'rooms/32/1.jpg',
+            'rooms/32/2.jpg',
+            'rooms/32/3.jpg',
+            'rooms/32/4.jpg',
+            'rooms/33/1.jpg',
+            'rooms/33/2.jpg',
+            'rooms/33/3.jpg',
+            'rooms/33/4.jpg',
+            'rooms/34/1.jpg',
+            'rooms/34/2.jpg',
+            'rooms/34/3.jpg',
+            'rooms/34/4.jpg',
+            'rooms/35/1.jpg',
+            'rooms/35/2.jpg',
+            'rooms/35/3.jpg',
+            'rooms/35/4.jpg',
+            'rooms/36/1.jpg',
+            'rooms/36/2.jpg',
+            'rooms/36/3.jpg',
+            'rooms/36/4.jpg',
+            'rooms/37/1.jpg',
+            'rooms/37/2.jpg',
+            'rooms/37/3.jpg',
+            'rooms/37/4.jpg',
+            'rooms/38/1.jpg',
+            'rooms/38/2.jpg',
+            'rooms/38/3.jpg',
+            'rooms/38/4.jpg',
+            'rooms/39/1.jpg',
+            'rooms/39/2.jpg',
+            'rooms/39/3.jpg',
+            'rooms/39/4.jpg',
+            'rooms/40/1.jpg',
+            'rooms/40/2.jpg',
+            'rooms/40/3.jpg',
+            'rooms/40/4.jpg',
+            'rooms/41/1.jpg',
+            'rooms/41/2.jpg',
+            'rooms/41/3.jpg',
+            'rooms/41/4.jpg',
+            'rooms/42/1.jpg',
+            'rooms/42/2.jpg',
+            'rooms/42/3.jpg',
+            'rooms/42/4.jpg',
+            'rooms/43/1.jpg',
+            'rooms/43/2.jpg',
+            'rooms/43/3.jpg',
+            'rooms/43/4.jpg',
+            'rooms/44/1.jpg',
+            'rooms/44/2.jpg',
+            'rooms/44/3.jpg', 'rooms/44/4.jpg',
+        ];
+
+        for (var i = 0; i < imagens.length; i++) {
+            cenario.style.opacity = '0';
+            var img = new Image();
+            img.src = imagens[i];
+            instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
+        }
+    }
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
+
+        window.addEventListener('load', function () {
+            instrucao(' ');
+            instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar:<br><font style="color:yellow">W</font>: Anda pra frente<br><font style="color:yellow">D</font>: Vira para a direita<br><font style="color:yellow">A</font>: Vira para a esquerda<br><br><font style="color:yellow">M</font>: Exibe/Oculta o mapa<br><font style="color:yellow">I</font>: Ativa/Desativa visão noturna');
+            cenario.style.opacity = '1';
+        });
+    });
+
+
+
+
+
+
+
+
     function debugMenu() {
         let fundo = document.createElement('div');
         fundo.style.backgroundColor = 'black';
@@ -1130,8 +964,8 @@
         portaria.style.position = 'block';
         portaria.style.marginTop = '5px';
         fundo.appendChild(portaria);
-		
-		
+
+
         let objMisterioso = document.createElement('p');
         objMisterioso.style.color = 'black';
         objMisterioso.style.backgroundColor = 'rgb(100 200 100)';
@@ -1210,27 +1044,72 @@
         ligarluz.style.marginTop = '5px';
         fundo.appendChild(ligarluz);
 
+        let mostrarNota = document.createElement('p');
+        mostrarNota.style.color = 'black';
+        mostrarNota.style.backgroundColor = 'aliceblue';
+        mostrarNota.innerHTML = 'Mostrar Nota';
+        mostrarNota.style.fontFamily = 'Arial';
+        mostrarNota.style.fontSize = '20px';
+        mostrarNota.style.width = '195px';
+        mostrarNota.style.position = 'block';
+        mostrarNota.style.marginTop = '5px';
+        fundo.appendChild(mostrarNota);
+
+        let pularTempo = document.createElement('p');
+        pularTempo.style.color = 'black';
+        pularTempo.style.backgroundColor = 'aliceblue';
+        pularTempo.innerHTML = 'Avançar Tempo';
+        pularTempo.style.fontFamily = 'Arial';
+        pularTempo.style.fontSize = '20px';
+        pularTempo.style.width = '195px';
+        pularTempo.style.position = 'block';
+        pularTempo.style.marginTop = '5px';
+        fundo.appendChild(pularTempo);
+
+        let pularTudo = document.createElement('p');
+        pularTudo.style.color = 'black';
+        pularTudo.style.backgroundColor = 'aliceblue';
+        pularTudo.innerHTML = 'Avançar Tudo';
+        pularTudo.style.fontFamily = 'Arial';
+        pularTudo.style.fontSize = '20px';
+        pularTudo.style.width = '195px';
+        pularTudo.style.position = 'block';
+        pularTudo.style.marginTop = '5px';
+        fundo.appendChild(pularTudo);
+
+        pularTudo.addEventListener('click', () => {
+            tempoEspera_concluido = true;
+            RecarregarParedes();
+        });
+        pularTudo.addEventListener('click', () => {
+            numLigacao = '10';
+            RecarregarParedes();
+        });
         objMisterioso.addEventListener('click', () => {
-             
+
             quartoAtual = 24;
             lado = 4;
-			RecarregarParedes();
+            RecarregarParedes();
         });
         slaEnergia.addEventListener('click', () => {
-             
+
             quartoAtual = 27;
             lado = 2;
-			RecarregarParedes();
+            RecarregarParedes();
+        });
+        mostrarNota.addEventListener('click', () => {
+            MostrarNota();
+            RecarregarParedes();
         });
         portaria.addEventListener('click', () => {
-           // window.location.href = 'room.html?quarto=1&lado=1';
-            
-           quartoAtual = 1; lado = 1;
-			RecarregarParedes();
+            // window.location.href = 'room.html?quarto=1&lado=1';
+
+            quartoAtual = 1; lado = 1;
+            RecarregarParedes();
         });
         ligarluz.addEventListener('click', () => {
             localStorage.setItem('ligouEnergia', '1');
-			RecarregarParedes();
+            RecarregarParedes();
         });
         suspeito.addEventListener('click', () => {
             localStorage.setItem('encontrouAlgoSuspeito', '1');
@@ -1241,6 +1120,8 @@
             localStorage.setItem('fezRonda', '0');
             localStorage.setItem('encontrouAlgoSuspeito', '0');
             localStorage.setItem('ligouEnergia', '0');
+            localStorage.setItem('anotacaoEstranha', '0');
+            localStorage.setItem('visualizou_anotacaoEstranha', '0');
         });
         item5.addEventListener('click', () => {
             localStorage.setItem('fezRonda', '1');
@@ -1255,226 +1136,128 @@
             item3.innerHTML = 'Quarto: ' + quartoAtual;
             item4.innerHTML = 'Lado: ' + lado;
         }, 1);
-		return fundo;
+        return fundo;
     }
 
-    function _GET(s)
-    {
+
+
+    function _GET(s) {
         var url = window.location.href;
         var qp = new URLSearchParams(url.split('?')[1]);
-        
-        if(qp.has(s))
-        {
+
+        if (qp.has(s)) {
             return qp.get(s);
         }
 
 
     }
-	
-	
-	preCarregarImagens();
-	
-	function preCarregarImagens() 
-	{
-    var imagens = [
-        'rooms/1/1.jpg', 
-        'rooms/1/2.jpg', 
-        'rooms/1/3.jpg', 
-        'rooms/1/4.jpg',
-        'rooms/2/1.jpg', 
-        'rooms/2/2.jpg', 
-        'rooms/2/3.jpg', 
-        'rooms/2/4.jpg',
-        'rooms/3/1.jpg', 
-        'rooms/3/2.jpg', 
-        'rooms/3/3.jpg', 
-        'rooms/3/4.jpg',
-        'rooms/4/1.jpg', 
-        'rooms/4/2.jpg', 
-        'rooms/4/3.jpg', 
-        'rooms/4/4.jpg',
-        'rooms/5/1.jpg', 
-        'rooms/5/2.jpg', 
-        'rooms/5/3.jpg', 
-        'rooms/5/4.jpg',
-        'rooms/6/1.jpg', 
-        'rooms/6/2.jpg', 
-        'rooms/6/3.jpg', 
-        'rooms/6/4.jpg',
-        'rooms/7/1.jpg', 
-        'rooms/7/2.jpg', 
-        'rooms/7/3.jpg', 
-        'rooms/7/4.jpg',
-        'rooms/8/1.jpg', 
-        'rooms/8/2.jpg', 
-        'rooms/8/3.jpg', 
-        'rooms/8/4.jpg',
-        'rooms/9/1.jpg', 
-        'rooms/9/2.jpg', 
-        'rooms/9/3.jpg', 
-        'rooms/9/4.jpg',
-        'rooms/10/1.jpg', 
-        'rooms/10/2.jpg', 
-        'rooms/10/3.jpg', 
-        'rooms/10/4.jpg',
-        'rooms/11/1.jpg', 
-        'rooms/11/2.jpg', 
-        'rooms/11/3.jpg', 
-        'rooms/11/4.jpg',
-        'rooms/12/1.jpg', 
-        'rooms/12/2.jpg', 
-        'rooms/12/3.jpg', 
-        'rooms/12/4.jpg',
-        'rooms/13/1.jpg', 
-        'rooms/13/2.jpg', 
-        'rooms/13/3.jpg', 
-        'rooms/13/4.jpg',
-        'rooms/14/1.jpg', 
-        'rooms/14/2.jpg', 
-        'rooms/14/3.jpg', 
-        'rooms/14/4.jpg',
-        'rooms/15/1.jpg', 
-        'rooms/15/2.jpg', 
-        'rooms/15/3.jpg', 
-        'rooms/15/4.jpg',
-        'rooms/16/1.jpg', 
-        'rooms/16/2.jpg', 
-        'rooms/16/3.jpg', 
-        'rooms/16/4.jpg',
-        'rooms/17/1.jpg', 
-        'rooms/17/2.jpg', 
-        'rooms/17/3.jpg', 
-        'rooms/17/4.jpg',
-        'rooms/18/1.jpg', 
-        'rooms/18/2.jpg', 
-        'rooms/18/3.jpg', 
-        'rooms/18/4.jpg',
-        'rooms/19/1.jpg', 
-        'rooms/19/2.jpg', 
-        'rooms/19/3.jpg', 
-        'rooms/19/4.jpg',
-        'rooms/20/1.jpg', 
-        'rooms/20/2.jpg', 
-        'rooms/20/3.jpg', 
-        'rooms/20/4.jpg',
-        'rooms/21/1.jpg', 
-        'rooms/21/2.jpg', 
-        'rooms/21/3.jpg', 
-        'rooms/21/4.jpg',
-        'rooms/22/1.jpg', 
-        'rooms/22/2.jpg', 
-        'rooms/22/3.jpg', 
-        'rooms/22/4.jpg',
-        'rooms/23/1.jpg', 
-        'rooms/23/2.jpg', 
-        'rooms/23/3.jpg', 
-        'rooms/23/4.jpg',
-        'rooms/24/1.jpg', 
-        'rooms/24/2.jpg', 
-        'rooms/24/3.jpg', 
-        'rooms/24/4.jpg',
-        'rooms/25/1.jpg', 
-        'rooms/25/2.jpg', 
-        'rooms/25/3.jpg', 
-        'rooms/25/4.jpg',
-        'rooms/26/1.jpg', 
-        'rooms/26/2.jpg', 
-        'rooms/26/3.jpg', 
-        'rooms/26/4.jpg',
-        'rooms/27/1.jpg', 
-        'rooms/27/2.jpg', 
-        'rooms/27/3.jpg', 
-        'rooms/27/4.jpg',
-        'rooms/28/1.jpg', 
-        'rooms/28/2.jpg', 
-        'rooms/28/3.jpg', 
-        'rooms/28/4.jpg',
-        'rooms/29/1.jpg', 
-        'rooms/29/2.jpg', 
-        'rooms/29/3.jpg', 
-        'rooms/29/4.jpg',
-        'rooms/30/1.jpg', 
-        'rooms/30/2.jpg', 
-        'rooms/30/3.jpg', 
-        'rooms/30/4.jpg',
-        'rooms/31/1.jpg', 
-        'rooms/31/2.jpg', 
-        'rooms/31/3.jpg', 
-        'rooms/31/4.jpg',
-        'rooms/32/1.jpg', 
-        'rooms/32/2.jpg', 
-        'rooms/32/3.jpg', 
-        'rooms/32/4.jpg',
-        'rooms/33/1.jpg', 
-        'rooms/33/2.jpg', 
-        'rooms/33/3.jpg', 
-        'rooms/33/4.jpg',
-        'rooms/34/1.jpg', 
-        'rooms/34/2.jpg', 
-        'rooms/34/3.jpg', 
-        'rooms/34/4.jpg',
-        'rooms/35/1.jpg', 
-        'rooms/35/2.jpg', 
-        'rooms/35/3.jpg', 
-        'rooms/35/4.jpg',
-        'rooms/36/1.jpg', 
-        'rooms/36/2.jpg', 
-        'rooms/36/3.jpg', 
-        'rooms/36/4.jpg',
-        'rooms/37/1.jpg', 
-        'rooms/37/2.jpg', 
-        'rooms/37/3.jpg', 
-        'rooms/37/4.jpg',
-        'rooms/38/1.jpg', 
-        'rooms/38/2.jpg', 
-        'rooms/38/3.jpg', 
-        'rooms/38/4.jpg',
-        'rooms/39/1.jpg', 
-        'rooms/39/2.jpg', 
-        'rooms/39/3.jpg', 
-        'rooms/39/4.jpg',
-        'rooms/40/1.jpg', 
-        'rooms/40/2.jpg', 
-        'rooms/40/3.jpg', 
-        'rooms/40/4.jpg',
-        'rooms/41/1.jpg', 
-        'rooms/41/2.jpg', 
-        'rooms/41/3.jpg', 
-        'rooms/41/4.jpg',
-        'rooms/42/1.jpg', 
-        'rooms/42/2.jpg', 
-        'rooms/42/3.jpg', 
-        'rooms/42/4.jpg',
-        'rooms/43/1.jpg', 
-        'rooms/43/2.jpg', 
-        'rooms/43/3.jpg', 
-        'rooms/43/4.jpg',
-        'rooms/44/1.jpg', 
-        'rooms/44/2.jpg', 
-        'rooms/44/3.jpg',  'rooms/44/4.jpg', 
-    ];
 
-    for (var i = 0; i < imagens.length; i++) 
-	{
-		cenario.style.opacity =  '0';
-        var img = new Image();
-        img.src = imagens[i];
-		instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
-		}
-	}
+    function RecarregarParedes() {
+        switch (lado) {
+            case 1:
+                cenario.src = 'rooms/' + quartoAtual + '/1.jpg';
+                break;
+            case 2:
+                //poe a img de desligada,se nao ativou a luz
+                if (localStorage.getItem('ligouEnergia') === '0') {
+                    if (quartoAtual === 27 && lado === 2) {
+                        cenario.src = 'rooms/27/2_2.jpg';
+                    } else {
+                        cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
 
-	
-	 
+                    }
+                } else {
+                    cenario.src = 'rooms/' + quartoAtual + '/2.jpg';
+                }
+                break;
+            case 3:
+                cenario.src = 'rooms/' + quartoAtual + '/3.jpg';
+                break;
+            case 4:
+                cenario.src = 'rooms/' + quartoAtual + '/4.jpg';
+                break;
+        }
+    }
 
- document.addEventListener('DOMContentLoaded', function() {
-        instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
-		
-        window.addEventListener('load', function() {
-		instrucao(' ');
-            instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar:<br><font style="color:yellow">W</font>: Anda pra frente<br><font style="color:yellow">D</font>: Vira para a direita<br><font style="color:yellow">A</font>: Vira para a esquerda ');
-			cenario.style.opacity =  '1';
-        });
-    });
+
+    function msg(msg) {
+        mensagem.innerHTML = msg;
+    }
+    function som(audio, loop = false) {
+        var a = new Audio('audio/' + audio);
+        a.volume = 1;
+        if (loop)
+            a.loop = true;
+        a.play();
+        return a;
+    }
+
+    somAmbiente('ambiente.mp3', true);
+    function somAmbiente(audio, loop = false) {
+        var ab = new Audio('audio/' + audio);
+        ab.volume = 0.2;
+        if (loop)
+            ab.loop = true;
+        ab.play();
+    }
+
+    function msgEstatica(msg, tempo = 3000) {
+        mensagem.innerHTML = msg;
+        mensagem.style.backgroundColor = 'black';
+        mensagem.style.border = '1px solid aliceblue';
+        setTimeout(() => {
+            mensagem.innerHTML = '';
+            mensagem.style.backgroundColor = 'transparent';
+            mensagem.style.border = 'none';
+        }, tempo);
+    }
+    function msgEstaticaSemFundo(msg) {
+        if (msg === '') {
+            mensagem2.style.display = 'none';
+        }
+        else {
+            mensagem2.innerHTML = msg;
+            mensagem2.style.display = 'block';
+        }
+
+    }
+
+
+    instrucao('Aguarde enquanto carregamos os cenários...');
+
+    function instrucao(msg) {
+
+        mensagem3.innerHTML = msg;
+        mensagem3.style.display = 'block';
+        setTimeout(() => {
+            mensagem3.style.display = 'none';
+        }, 10000);
+
+    }
+
+    function telefoneMudo() {
+        setTimeout(() => {
+            som('telefone.wav');
+            setTimeout(() => {
+                som('telefone.wav');
+                setTimeout(() => {
+                    som('telefone.wav');
+                }, 1000);
+            }, 1000);
+        }, 1000);
+    }
+
+
+    function verificarObjeto(N_quarto, parede, x1, y1, x2, y2) {
+
+        if (quartoAtual === N_quarto && lado === parede && xMouse >= x1 && yMouse >= y1 && xMouse <= x2 && yMouse <= y2) {
+            return true;
+        }
+        return false;
+    }
+
+
+
 </script>
 
 </html>
