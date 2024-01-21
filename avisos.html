@@ -21,7 +21,7 @@
 	<br>
 </body>
 <center>
-	 
+	<footer id="foot">Continuar</footer>
 </center>
 <script>
 
@@ -57,6 +57,10 @@
 	localStorage.setItem('anotacaoEstranha', '0');
 	localStorage.setItem('visualizou_anotacaoEstranha', '0');
 
+	
+	document.getElementById('foot').addEventListener('click',()=>{
+	window.location.href = 'room.html';
+	});
 
 	setTimeout(()=>{
 		window.location.href = 'room.html';
