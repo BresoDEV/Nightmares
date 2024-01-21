@@ -21,7 +21,7 @@
 	<br>
 </body>
 <center>
-	<footer id="foot">Aperte ENTER para continuar</footer>
+	 
 </center>
 <script>
 
@@ -58,6 +58,9 @@
 	localStorage.setItem('visualizou_anotacaoEstranha', '0');
 
 
+	setTimeout(()=>{
+		window.location.href = 'room.html';
+	},25000);
 
 	document.addEventListener('keydown', (x) => {
 		if (x.key === 'Enter') {
