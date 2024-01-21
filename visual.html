@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,7 +11,7 @@
 
 
 <body>
-	<img id="cenario" src="imgs/fundo.jpg" alt="" class="fundo2">
+	<img id="cenario" src="rooms/16/1.jpg" alt="" class="fundo2">
 	<br>
 	<br>
 	<center>
@@ -20,16 +19,49 @@
 	</center>
 	<br>
 	<br>
-	
-    
+
+
 	<button id="1">Padrao</button><br><br>
-	<button id="2">Aprimorado</button><br><br>
-	<button id="3">Preto e Branco</button><br><br>
+	<button id="2">Aprimorado</button><br><br> 
 	<button id="4">Outlast 2</button><br><br><br><br>
 	<a href="opcoes.html"><button>Voltar</button></a><br><br>
 </body>
- 
+
 <script>
+
+setInterval(() => {
+	document.getElementById('cenario').style.filter =  'sepia('+localStorage.getItem('sepia')+'%) '+
+        'saturate('+localStorage.getItem('saturate')+'%) '+
+        'hue-rotate('+localStorage.getItem('hue-rotate')+'deg) '+
+        'brightness('+localStorage.getItem('brightness')+'%) '+
+        'contrast('+localStorage.getItem('contrast')+'%)';
+}, 1);
+
+	document.getElementById('1').addEventListener('click', () => {
+		localStorage.setItem('sepia', '20');
+		localStorage.setItem('saturate', '54');
+		localStorage.setItem('hue-rotate', '0');
+		localStorage.setItem('brightness', '129');
+		localStorage.setItem('contrast', '100');
+		//window.location.href = 'index.html';
+	});
+	document.getElementById('2').addEventListener('click', () => {
+		localStorage.setItem('sepia', '18');
+		localStorage.setItem('saturate', '150');
+		localStorage.setItem('hue-rotate', '-30');
+		localStorage.setItem('brightness', '80');
+		localStorage.setItem('contrast', '120');
+		//window.location.href = 'index.html';
+	});
+	
+	document.getElementById('4').addEventListener('click', () => {
+		localStorage.setItem('sepia', '200');
+		localStorage.setItem('saturate', '87');
+		localStorage.setItem('hue-rotate', '82');
+		localStorage.setItem('brightness', '80');
+		localStorage.setItem('contrast', '120');
+		//window.location.href = 'index.html';
+	});
 
 	const titulo = document.getElementById('titulo');
 
@@ -40,14 +72,10 @@
 		titulo.innerHTML = "Help-me";
 	}, 3500);
 
-	var continuar = document.getElementById('continuar');
-	if (localStorage.getItem('numLigacao') ) 
-	{
-		continuar.style.display = 'block';
-	}
+	 
 
-	
- 
+
+
 </script>
 
 </html>

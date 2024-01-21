@@ -18,8 +18,6 @@
 	<center>
 		<h1 id="titulo">Nightmares</h1>
 	</center>
-	<br>
-	<br>
 	<a id='continuar' href="room.html" style="display: none;"><button>Continuar</button></a><br><br>
 	<a href="avisos.html?INDEX=1"><button>Novo Jogo</button></a><br><br>
 	<a href="opcoes.html"><button>Opcoes</button></a><br><br>
@@ -40,12 +38,49 @@
 	}, 3500);
 
 	var continuar = document.getElementById('continuar');
-	if (localStorage.getItem('numLigacao') ) 
+	if (localStorage.getItem('numLigacao') !== '0' ) 
 	{
 		continuar.style.display = 'block';
 	}
+	else
+	{
+		continuar.style.display = 'none';
+	}
 
 	
+console.log('numLigacao:	'+localStorage.getItem('numLigacao'))
+console.log('jaBateuPonto:	'+localStorage.getItem('jaBateuPonto'))
+console.log('fezRonda:	'+localStorage.getItem('fezRonda'))
+console.log('encontrouAlgoSuspeito:	'+localStorage.getItem('encontrouAlgoSuspeito'))
+console.log('ligouEnergia:	'+localStorage.getItem('ligouEnergia'))
+console.log('anotacaoEstranha:	'+localStorage.getItem('anotacaoEstranha'))
+console.log('visualizou_anotacaoEstranha:	'+localStorage.getItem('visualizou_anotacaoEstranha'))
+
+	
+
+
+	//opcoes visual
+if(!localStorage.getItem('sepia'))
+{
+	localStorage.setItem('sepia','20');
+}
+if(!localStorage.getItem('saturate'))
+{
+	localStorage.setItem('saturate','150');
+}
+if(!localStorage.getItem('hue-rotate'))
+{
+	localStorage.setItem('hue-rotate','-30');
+}
+if(!localStorage.getItem('brightness'))
+{
+	localStorage.setItem('brightness','80');
+}
+if(!localStorage.getItem('contrast'))
+{
+	localStorage.setItem('contrast','120');
+}
+
  
 </script>
 

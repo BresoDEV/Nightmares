@@ -53,7 +53,7 @@ button:hover {
 
 h1{
     animation: fade 15s forwards;
-    font-size: 100px;
+    font-size: 200px;
     color: rgb(131, 45, 45);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -125,6 +125,23 @@ h1{
 
 const titulo = document.getElementById('titulo');
 
+localStorage.setItem('numLigacao','0');
+localStorage.setItem('jaBateuPonto','0');
+localStorage.setItem('fezRonda','0');
+localStorage.setItem('encontrouAlgoSuspeito','0');
+localStorage.setItem('ligouEnergia','0');
+localStorage.setItem('anotacaoEstranha','0');
+localStorage.setItem('visualizou_anotacaoEstranha','0');
+
+console.log('numLigacao:	'+localStorage.getItem('numLigacao'))
+console.log('jaBateuPonto:	'+localStorage.getItem('jaBateuPonto'))
+console.log('fezRonda:	'+localStorage.getItem('fezRonda'))
+console.log('encontrouAlgoSuspeito:	'+localStorage.getItem('encontrouAlgoSuspeito'))
+console.log('ligouEnergia:	'+localStorage.getItem('ligouEnergia'))
+console.log('anotacaoEstranha:	'+localStorage.getItem('anotacaoEstranha'))
+console.log('visualizou_anotacaoEstranha:	'+localStorage.getItem('visualizou_anotacaoEstranha'))
+
+
 setInterval(()=>{
 	titulo.innerHTML = "Fim";
 },3000);
@@ -135,6 +152,8 @@ setInterval(()=>{
 setTimeout(() => {
     window.location.href='index.html';
 }, 16000);
+
+
 
 
 

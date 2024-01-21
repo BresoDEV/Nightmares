@@ -11,12 +11,12 @@ function verificarPosMouse(N_quarto, parede, x1, y1, x2, y2) {
 function MostrarMapa() {
     var nota = document.createElement('img');
     nota.src = 'imgs/mapa.jpg';
-    nota.style.left = '10%';
-    nota.style.width = '80%';
-    nota.style.height = '350px';
-    nota.style.top = '20%';
+    nota.style.left = '20%';
+    nota.style.width = '60%';
+    nota.style.height = '40%';
+    nota.style.top = '10%';
     nota.style.position = 'fixed';
-    nota.style.opacity = '0.6';
+    nota.style.opacity = '0.9';
     document.body.append(nota);
    
     return nota;
@@ -24,27 +24,25 @@ function MostrarMapa() {
 }
 var mapaaaaa;
 
-setInterval(() => {
-    if(mapaSendoExibido)
-    {
-        
+function mapToggle()
+{
+    if(!mapaSendoExibido)
+    { 
+        mapaaaaa = MostrarMapa();
+    mapaSendoExibido = true;
     }
-}, 1);
+    else
+    {
+        mapaaaaa.remove();
+    mapaSendoExibido = false;
+    }
+}
 
 document.addEventListener('keypress', (x) => {
 	
 		 
     if (x.key === 'm') {
-        if(!mapaSendoExibido)
-            { 
-                mapaaaaa = MostrarMapa();
-            mapaSendoExibido = true;
-            }
-            else
-            {
-                mapaaaaa.remove();
-            mapaSendoExibido = false;
-            }
+        mapToggle();
              
     } 	 
     if (x.key === 'p') {
@@ -83,7 +81,16 @@ document.addEventListener('keypress', (x) => {
 
     if (x.key === 'w') 
     {
-        fadeIN(()=>{
+        andarFrente();
+    } 
+     
+    RecarregarParedes();
+    
+});
+
+function andarFrente()
+{
+    fadeIN(()=>{
         
         switch (quartoAtual) 
         {
@@ -567,11 +574,4 @@ document.addEventListener('keypress', (x) => {
         }
 
         });
-     
-        
-
-    } 
-     
-    RecarregarParedes();
-    
-});
+}
