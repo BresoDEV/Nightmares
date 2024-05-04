@@ -10,13 +10,15 @@ function verificarPosMouse(N_quarto, parede, x1, y1, x2, y2) {
 
 function MostrarMapa() {
     var nota = document.createElement('img');
-    nota.src = 'imgs/mapa.jpg';
+    nota.src = 'imgs/mapa/'+quartoAtual+'.jpg';
     nota.style.left = '20%';
     nota.style.width = '60%';
     nota.style.height = '40%';
     nota.style.top = '10%';
     nota.style.position = 'fixed';
     nota.style.opacity = '0.9';
+
+    
     document.body.append(nota);
    
     return nota;

@@ -35,6 +35,8 @@
     var debugmenuBool = false;
 
 
+
+
     var dificuldade = 'facil';
     //if (localStorage.getItem('dificuldade')) {
     //    dificuldade = localStorage.getItem('dificuldade');
@@ -78,63 +80,6 @@
 
     //-----------------------------------------------
 
-
-    const telaX = document.body.clientWidth;
-    const telaY = document.body.clientHeight;
-
-    //const telaX_1 = (telaX /2)/2;
-    //const telaX_2 = (telaX /2)+telaX_1;
-
-    const telaX_1 = (telaX / 2) - 50;
-    const telaX_2 = (telaX / 2) + 50;
-
-    const telaY_1 = 0;
-    const telaY_2 = (telaY / 2) /2;
-
-    document.addEventListener('mousemove',(x)=>{
-        console.log(x.clientX);
-    });
-
-
-    let startX;
-    let startY;
-    let delta;
-
-
-
-    document.addEventListener('touchmove', (x) => {
-        const cX = x.touches[0].clientX;
-        delta = cX - startX;
-
-    });
-    document.addEventListener('touchstart', (x) => {
-        startX = x.touches[0].clientX;
-        startY = x.touches[0].clientY;
-    });
-
-    document.addEventListener('touchend', (x) => {
-        if (startX >= telaX_1 && startX <= telaX_2 && startY <= telaY_2) {
-            console.log('Dentro');
-            andarFrente();
-        }
-        else if (startY <= telaY_2) {
-            console.log('Lado');
-            if (delta > 0) {
-                if (lado == 4)
-                    lado = 1;
-                else
-                    lado++;
-            } else if (delta < 0) {
-                if (lado == 1)
-                    lado = 4;
-                else
-                    lado--;
-
-            }
-        }
-
-        RecarregarParedes();
-    });
 
 
 
@@ -182,17 +127,15 @@
     cenario.addEventListener('click', () => {
 
         if (verificarObjeto(7, 2, 11, 22, 18, 57)) {
-            if(!debugmenuBool)
-            { 
-            debugmenu.style.display = 'block';
-            debugmenuBool = true;
+            if (!debugmenuBool) {
+                debugmenu.style.display = 'block';
+                debugmenuBool = true;
             }
-            else
-            {
-            debugmenu.style.display = 'none';
-            debugmenuBool = false;
+            else {
+                debugmenu.style.display = 'none';
+                debugmenuBool = false;
             }
-        } 
+        }
         if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
             if (encontrouAlgoSuspeito === '0') {
                 som('terror.mp3');
@@ -268,6 +211,9 @@
         }
         if (verificarObjeto(8, 1, 1, 30, 30, 98)) {
             som('xixi.mp3');
+        }
+        if (verificarObjeto(3, 4, 19, 100, 85, 100)) {
+            som('xixi.mp3');//Julio
         }
         if (verificarObjeto(1, 2, 20, 77, 33, 86) || verificarObjeto(1, 1, 92, 75, 100, 86)) {
             //falas
@@ -430,38 +376,9 @@
                                                         msgEstatica('Oque está acontecendo...não pode ter sido minha imaginação..', 7000);
                                                         setTimeout(() => {
                                                             msgEstatica('As marcas de sangue! Tenho que ver se estão lá ainda!', 7000);
-                                                            localStorage.setItem('numLigacao', '10');
+                                                            localStorage.setItem('numLigacao', '11');
 
-                                                            var vvvv = setInterval(() => {
-                                                                if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
-                                                                    clearInterval(vvvv);
-                                                                    som('passos.mp3');
-                                                                    setTimeout(() => {
-                                                                        som('terror.mp3');
-                                                                        var indexfade = 100;
-                                                                        var aa = setInterval(() => {
-                                                                            if (indexfade !== 0) {
-                                                                                indexfade--;
-                                                                                cenario.style.opacity = indexfade * 0.1;
-                                                                            }
-                                                                            else {
-
-
-                                                                                localStorage.setItem('numLigacao', '0');
-                                                                                localStorage.setItem('jaBateuPonto', '0');
-                                                                                localStorage.setItem('fezRonda', '0');
-                                                                                localStorage.setItem('encontrouAlgoSuspeito', '0');
-                                                                                localStorage.setItem('ligouEnergia', '0');
-                                                                                localStorage.setItem('anotacaoEstranha', '0');
-                                                                                localStorage.setItem('visualizou_anotacaoEstranha', '0');
-
-                                                                                window.location.href = 'fim.html';
-                                                                            }
-                                                                        }, 100);
-
-                                                                    }, 8000);
-                                                                }
-                                                            }, 1);
+                                                            ligacaoFinal();
 
                                                         }, 10000);
                                                     }, 10000);
@@ -476,7 +393,9 @@
                 }, 5000);
 
             }
-
+            else if (numLigacao === '11') {
+                ligacaoFinal();
+            }
 
 
 
@@ -484,6 +403,42 @@
     });
 
 
+    function ligacaoFinal() {
+        if (numLigacao === '11') {
+            telefoneMudo();
+            msgEstatica('<i>Linha ocupada</i>', 5000);
+            var vvvv = setInterval(() => {
+                if (verificarObjeto(24, 4, 11, 26, 27, 36)) {
+                    clearInterval(vvvv);
+                    som('passos.mp3');
+                    setTimeout(() => {
+                        som('terror.mp3');
+                        var indexfade = 100;
+                        var aa = setInterval(() => {
+                            if (indexfade !== 0) {
+                                indexfade--;
+                                cenario.style.opacity = indexfade * 0.1;
+                            }
+                            else {
+
+
+                                localStorage.setItem('numLigacao', '11');
+                                localStorage.setItem('jaBateuPonto', '0');
+                                localStorage.setItem('fezRonda', '0');
+                                localStorage.setItem('encontrouAlgoSuspeito', '0');
+                                localStorage.setItem('ligouEnergia', '0');
+                                localStorage.setItem('anotacaoEstranha', '0');
+                                localStorage.setItem('visualizou_anotacaoEstranha', '0');
+
+                                window.location.href = 'fim.html';
+                            }
+                        }, 100);
+
+                    }, 8000);
+                }
+            }, 1);
+        }
+    }
 
 
 
@@ -715,6 +670,9 @@
         }
         else if (verificarObjeto(8, 1, 1, 30, 30, 98)) {
             msgEstaticaSemFundo('Vaso Sanitário - <font style="color:yellow;font-family:Georgia">Clique para urinar</font>');
+        }
+        else if (verificarObjeto(3, 4, 19, 76, 85, 86)) {
+            msgEstaticaSemFundo('Arbusto - <font style="color:yellow;font-family:Georgia">Clique para urinar</font>');
         }
         else if (verificarObjeto(8, 1, 55, 19, 88, 59)) {
             msgEstaticaSemFundo('Pia');
@@ -950,53 +908,190 @@
     document.addEventListener('DOMContentLoaded', function () {
         instrucao('Aguarde enquanto carregamos os cenários...<br>Avisaremos quando terminar');
         cenario.style.filter = 'sepia(20%) saturate(25%) hue-rotate(-100deg) brightness(33%) contrast(120%)';
+        cenario.style.display = 'none';
+
+        IconeLoading(true);
+
         window.addEventListener('load', function () {
-            instrucao(' ');
-            carregouTudo = true;
+            setTimeout(() => {
+                instrucao(' ');
+                carregouTudo = true;
 
-            if (!isMobile)
-                instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar:<br><font style="color:yellow">W</font>: Anda pra frente<br><font style="color:yellow">D</font>: Vira para a direita<br><font style="color:yellow">A</font>: Vira para a esquerda<br><br><font style="color:yellow">M</font>: Exibe/Oculta o mapa<br><font style="color:yellow">I</font>: Ativa/Desativa visão noturna',20000);
-            else
-                instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar com touch (deslizando):<br><font style="color:yellow">Toque em Cima/Centro</font>: Anda pra frente<br><font style="color:yellow">Centro p/ Direita</font>: Vira para a direita<br><font style="color:yellow">Centro p/ Esquerda</font>: Vira para a esquerda<br><br><font style="color:yellow">Obs</font>: Controles de movimento, sao ativados no topo da tela, pra nao interferir nas interações com objetos ',20000);
-
-
-            cenario.style.opacity = '1';
+                if (!isMobile)
+                    instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar:<br><font style="color:yellow">W</font>: Anda pra frente<br><font style="color:yellow">D</font>: Vira para a direita<br><font style="color:yellow">A</font>: Vira para a esquerda<br><br><font style="color:yellow">M</font>: Exibe/Oculta o mapa<br><font style="color:yellow">I</font>: Ativa/Desativa visão noturna', 20000);
+                else
+                    instrucao('Todos cenários foram carregados com sucesso!<br><br>Movimentar com touch:<br><font style="color:yellow">Setas Cima</font>: Anda pra frente<br><font style="color:yellow">Seta Direita/Esquerda</font>: Vira para os lados<br>', 20000);
 
 
-            if (isMobile) {
-                var luzNot = document.createElement('button');
-                luzNot.innerHTML='Visao Noturna';
-                luzNot.textContent='Visao Noturna';
-                luzNot.style.position='fixed';
-                luzNot.style.right='41%';
-                luzNot.style.bottom='10px';
-                luzNot.style.fontSize='20px';
-                luzNot.style.width='150px';
-                document.body.append(luzNot);
+                cenario.style.display = 'block';
+                IconeLoading(false);
 
-                var maptg = document.createElement('button');
-                maptg.innerHTML='Mapa';
-                maptg.textContent='Mapa';
-                maptg.style.position='fixed';
-                maptg.style.right='43%';
-                maptg.style.bottom='30px';
-                maptg.style.width='100px';
-                maptg.style.fontSize='20px';
-                document.body.append(maptg);
-                // visaoNoturna = !visaoNoturna;
-                luzNot.addEventListener('click',()=>{
-                    visaoNoturna = !visaoNoturna;
-                });
-                maptg.addEventListener('click',()=>{
-                    mapToggle();
-                });
-            }
+                if (isMobile) {
+
+                    exibirControlesCelular();
+
+
+                    var luzNot = document.createElement('button');
+                    luzNot.innerHTML = 'Visao Noturna';
+                    luzNot.textContent = 'Visao Noturna';
+                    luzNot.style.position = 'fixed';
+                    luzNot.style.right = '30%';
+                    luzNot.style.bottom = '10px';
+                    luzNot.style.fontSize = '150%';
+                    luzNot.style.width = '200px';
+                    document.body.append(luzNot);
+
+                    var maptg = document.createElement('button');
+                    maptg.innerHTML = 'Mapa';
+                    maptg.textContent = 'Mapa';
+                    maptg.style.position = 'fixed';
+                    maptg.style.left = '30%';
+                    maptg.style.bottom = '10px';
+                    maptg.style.width = '100px';
+                    maptg.style.fontSize = '150%';
+                    document.body.append(maptg);
+                    // visaoNoturna = !visaoNoturna;
+                    luzNot.addEventListener('click', () => {
+                        visaoNoturna = !visaoNoturna;
+                    });
+                    maptg.addEventListener('click', () => {
+                        mapToggle();
+                        cenario.focus()
+                    });
+                }
+            }, tempo_de_loading);
         });
     });
 
+    var tempo_de_loading = 2000;
+    var icone_de_loading;
+    var Loop_icone_de_loading;
+
+    function IconeLoading(atuv) {
+        if (atuv == true) {
+            icone_de_loading = document.createElement('img');
+            icone_de_loading.style.position = 'fixed';
+            icone_de_loading.style.width = '10%';
+            icone_de_loading.style.right = '10%';
+            icone_de_loading.style.bottom = '10%';
+            icone_de_loading.src = 'imgs/load.png'
+            icone_de_loading.style.mixBlendMode = 'difference';
+            icone_de_loading.style.filter = 'invert(100%)';
+            document.body.appendChild(icone_de_loading);
+
+            var grau = 0;
+            // movEsquerda.style.transform = 'rotate(270deg)';
+            Loop_icone_de_loading = setInterval(() => {
+                icone_de_loading.style.transform = 'rotate(' + grau + 'deg)';
+                grau++;
+            }, 10);
+
+        }
+        else {
+            clearInterval(Loop_icone_de_loading);
+            icone_de_loading.remove()
+        }
+    }
 
 
+    function exibirControlesCelular() {
+        var movEsquerda = document.createElement('img');
+        movEsquerda.style.position = 'fixed';
+        movEsquerda.style.left = '3%';
+        movEsquerda.style.top = '70%';
+        movEsquerda.style.width = '10%';
+        movEsquerda.src = 'imgs/frente.png';
+        movEsquerda.style.transform = 'rotate(270deg)';
+        document.body.append(movEsquerda);
 
+
+        var movDireita = document.createElement('img');
+        movDireita.style.position = 'fixed';
+        movDireita.style.right = '3%';
+        movDireita.style.top = '70%';
+        movDireita.style.width = '10%';
+        movDireita.src = 'imgs/frente.png';
+        movDireita.style.transform = 'rotate(90deg)';
+        document.body.append(movDireita);
+
+
+        var movFrente1 = document.createElement('img');
+        movFrente1.style.position = 'fixed';
+        movFrente1.style.right = '3%';
+        movFrente1.style.top = '40%';
+        movFrente1.style.width = '10%';
+        movFrente1.src = 'imgs/frente.png';
+        // movFrente1.style.transform = 'rotate(90deg)';
+        document.body.append(movFrente1);
+
+        var movFrente2 = document.createElement('img');
+        movFrente2.style.position = 'fixed';
+        movFrente2.style.left = '3%';
+        movFrente2.style.top = '40%';
+        movFrente2.style.width = '10%';
+        movFrente2.src = 'imgs/frente.png';
+        // movFrente1.style.transform = 'rotate(90deg)';
+        document.body.append(movFrente2);
+
+
+        movDireita.style.opacity = '0.9';
+        movEsquerda.style.opacity= '0.9';
+        movFrente1.style.opacity = '0.9';
+        movFrente2.style.opacity = '0.9';
+
+        movDireita.style.filter = 'invert(100%)';
+        movEsquerda.style.filter = 'invert(100%)';
+        movFrente1.style.filter = 'invert(100%)';
+        movFrente2.style.filter = 'invert(100%)';
+
+        
+        movDireita.style.borderRadius = '100%';
+        movEsquerda.style.borderRadius= '100%';
+        movFrente1.style.borderRadius = '100%';
+        movFrente2.style.borderRadius = '100%';
+
+        movDireita.style.border = '3px solid black';
+       movEsquerda.style.border=  '3px solid black';
+        movFrente1.style.border = '3px solid black';
+        movFrente2.style.border = '3px solid black';
+
+        movDireita.style.padding = '25px';
+       movEsquerda.style.padding=  '25px';
+        movFrente1.style.padding = '25px';
+        movFrente2.style.padding = '25px';
+ 
+
+
+        movDireita.style.mixBlendMode = 'difference';
+        movEsquerda.style.mixBlendMode = 'difference';
+        movFrente1.style.mixBlendMode = 'difference';
+        movFrente2.style.mixBlendMode = 'difference';
+
+
+        movEsquerda.addEventListener('click', () => {
+            if (lado == 1) { lado = 4; }
+            else { lado--; }
+            RecarregarParedes();
+        });
+
+        movDireita.addEventListener('click', () => {
+            if (lado == 4) { lado = 1; }
+            else { lado++; }
+            RecarregarParedes();
+        });
+
+        movFrente1.addEventListener('click', () => {
+            andarFrente();
+            RecarregarParedes();
+        });
+
+        movFrente2.addEventListener('click', () => {
+            andarFrente();
+            RecarregarParedes();
+        });
+
+
+    }
 
 
 
@@ -1299,11 +1394,20 @@
 
     somAmbiente('ambiente.mp3', true);
     function somAmbiente(audio, loop = false) {
-        var ab = new Audio('audio/' + audio);
-        ab.volume = 0.2;
-        if (loop)
-            ab.loop = true;
-        ab.play();
+
+        if (cenario) {
+            for (let i = 0; i < 1000; i++) {
+                cenario.click()
+            }
+
+            setTimeout(() => {
+                var ab = new Audio('audio/' + audio);
+                ab.volume = 0.2;
+                if (loop)
+                    ab.loop = true;
+                ab.play();
+            }, 1000);
+        }
     }
 
     function msgEstatica(msg, tempo = 3000) {
@@ -1330,7 +1434,7 @@
 
     instrucao('Aguarde enquanto carregamos os cenários...');
 
-    function instrucao(msg,tempo = 10000) {
+    function instrucao(msg, tempo = 10000) {
 
         mensagem3.innerHTML = msg;
         mensagem3.style.display = 'block';
